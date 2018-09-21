@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/nemanja/GoodFood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
+            "outputFile": "/home/nemanja/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
             "map": [
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/fa05f586cdea2d5f3903f0bb54ea2c7f/res/values-ldltr-v21/values-ldltr-v21.xml",
+                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/values-ldltr-v21/values-ldltr-v21.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

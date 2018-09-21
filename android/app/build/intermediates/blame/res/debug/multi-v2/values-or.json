@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/nemanja/GoodFood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
+            "outputFile": "/home/nemanja/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
             "map": [
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.2.aar/f01292fb0076244334984641c92a6b14/res/values-or/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "205",
-                        "endColumns": "102",
-                        "endOffsets": "307"
-                    },
-                    "to": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "106",
-                        "endOffsets": "157"
-                    }
-                },
-                {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-16.0.3.aar/9dca662aa9f0018d4416a06f9f7c40e3/res/values-or/values.xml",
+                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-16.0.3.aar/89b3583c8d889cb9aca2429a2f18eeaa/res/values-or/values.xml",
                     "from": {
                         "startLines": "4,5,6",
                         "startColumns": "0,0,0",
@@ -35,6 +18,23 @@
                         "startOffsets": "162,265,389",
                         "endColumns": "102,123,101",
                         "endOffsets": "260,384,486"
+                    }
+                },
+                {
+                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.2.aar/6eed1a1c6ffe051338d833627f96bc0f/res/values-or/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "205",
+                        "endColumns": "102",
+                        "endOffsets": "307"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "106",
+                        "endOffsets": "157"
                     }
                 }
             ]

@@ -118,6 +118,7 @@ android {
         applicationId "com.goodfood"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         ndk {
@@ -154,7 +155,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation project(':react-native-firebase')
+    implementation project(':react-native-vector-icons')
     implementation project(':react-native-onesignal')
     implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
@@ -173,6 +176,8 @@ dependencies {
    implementation 'com.google.android.gms:play-services-gcm:+'
    implementation 'com.google.firebase:firebase-messaging:+'
    implementation 'com.google.firebase:firebase-analytics-impl:+'
+   implementation 'com.google.firebase:firebase-auth:+'
+   implementation 'com.google.firebase:firebase-database:+'
    implementation "com.google.android.gms:play-services-places:+"
    implementation "com.google.android.gms:play-services-location:+"
    implementation 'com.google.android.gms:play-services-stats:+'

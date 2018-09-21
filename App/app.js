@@ -1,31 +1,24 @@
 import React, { Component } from 'react';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import * as reducers from '../App/reducers';
 import Routes from '../App/Routes';
-
-const createStoreWithMiddleware = applyMiddleware(thunk);
-const reducer = combineReducers(reducers);
-const store = createStore(reducer, createStoreWithMiddleware);
-
+import store from '../App/store'
+import { GoogleSignin } from 'react-native-google-signin';
 export default class App extends Component {
     constructor() {
         super();
     }
 
-    // componentDidMount() {
-    //     //SplashScreen.close(SplashScreen.animationType.scale, 850, 500)
-    //     SplashScreen.close({
-    //         animationType: SplashScreen.animationType.scale,
-    //         duration: 850,
-    //         delay: 0,
-    //     })
-    // }
+    componentDidMount() {
+        GoogleSignin.configure({
+            webClientId: '726136803927-o85mm0rea6j945abh6hcedm6bfpmq27r.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+            offlineAccess: false, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+            forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
+        });
+    }
 
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={store()}>
                 <Routes />
             </Provider>
         );
