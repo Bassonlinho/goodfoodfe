@@ -57,7 +57,6 @@ export default StyleSheet.create({
         alignSelf: 'center',
         height: 100,
         width: 80,
-        color: 'white',
     },
     forgotPassword: {
         fontSize: 15,

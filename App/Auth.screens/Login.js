@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, ScrollView, Image, TouchableHighlight, Alert
+    View, Text, ScrollView, Image, TouchableHighlight, Alert, ToastAndroid
 } from 'react-native';
 import { AccessToken, LoginButton } from 'react-native-fbsdk'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
@@ -8,12 +8,11 @@ import styles from '../assets/css/Main'
 import firebase from 'react-native-firebase'
 import { withFirebase } from 'react-redux-firebase'
 import { FormInput, Button } from 'react-native-elements'
-import { compose, setStatic, withHandlers } from 'recompose';
+import { compose, setStatic, withHandlers, withState } from 'recompose';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-export const Login = ({ auth, profile, registration }) => {
+export const Login = ({ logInFirebase, registration, setEmail, setPassword, navigation }) => {
 
-    //uraditi drugacije 
     signIn = () => {
         GoogleSignin.signIn()
             .then((data) => {
@@ -21,16 +20,16 @@ export const Login = ({ auth, profile, registration }) => {
                 return firebase.auth().signInAndRetrieveDataWithCredential(credential);
             })
             .then((user) => {
-
+                navigation.navigate('HomeScreen')
             })
             .catch((error) => {
-                const { code, message } = error;
+                ToastAndroid.show('Error while loging with Google! Please try again')
             });
     }
 
     return (
         <ScrollView style={styles.mainContainer}>
-            <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
+            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
                 <View
                     style={styles.loginBar}>
                     <Image source={require('../assets/img/Logo.png')}
@@ -40,8 +39,8 @@ export const Login = ({ auth, profile, registration }) => {
             </LinearGradient>
             <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 25, alignSelf: 'center' }}>Sign In</Text>
-                <FormInput inputStyle={styles.inputFields} placeholder="Email" />
-                <FormInput inputStyle={styles.inputFields} placeholder="Password" />
+                <FormInput inputStyle={styles.inputFields} onChangeText={setEmail} placeholder="Email *" />
+                <FormInput secureTextEntry inputStyle={styles.inputFields} onChangeText={setPassword} placeholder="Password *" />
                 <TouchableHighlight
                     underlayColor="white"
                     onPress={() => Alert.alert('Password reset', 'Contact support')}>
@@ -53,6 +52,7 @@ export const Login = ({ auth, profile, registration }) => {
                 <Button
                     large
                     textStyle={{ color: 'white', fontSize: 20 }}
+                    onPress={logInFirebase}
                     buttonStyle={styles.buttonLogin}
                     title='Sign in' />
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
@@ -80,6 +80,12 @@ export const Login = ({ auth, profile, registration }) => {
                                             let accessToken = data.accessToken;
                                             const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
                                             firebase.auth().signInAndRetrieveDataWithCredential(credential)
+                                                .then(() => {
+                                                    navigation.navigate('HomeScreen')
+                                                })
+                                                .catch((error) => {
+                                                    ToastAndroid.show('Error while loging with Facebook! Please try again')
+                                                });
                                         })
                                 }
                             }
@@ -113,6 +119,8 @@ export default compose(
             header: null
         }
     ),
+    withState('email', 'setEmail', ''),
+    withState('password', 'setPassword', ''),
     withFirebase,
     connect((state) => {
         return {
@@ -121,6 +129,28 @@ export default compose(
         }
     }),
     withHandlers({
+        logInFirebase: props => () => {
+            if (props.email && props.password) {
+                firebase.auth().signInAndRetrieveDataWithEmailAndPassword(props.email, props.password)
+                    .then((confirmResult) => {
+                        props.navigation.navigate('HomeScreen')
+                    })
+                    .catch((error) => {
+                        switch (error.code) {
+                            case "auth/user-not-found":
+                                ToastAndroid.show('User not found!', ToastAndroid.SHORT);
+                                break;
+                            case "auth/wrong-password":
+                                ToastAndroid.show('Wrong password! Please try again', ToastAndroid.SHORT);
+                                break;
+                            default:
+                                console.log("Error logging user in:", error);
+                        }
+                    })
+            } else {
+                ToastAndroid.show('Please enter email and password!', ToastAndroid.SHORT);
+            }
+        },
         registration: props => event => {
             return props.navigation.navigate('Registration');
         },

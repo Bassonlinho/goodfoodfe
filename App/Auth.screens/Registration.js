@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    View, Text, ScrollView, Image, TouchableHighlight, Alert
+    View, Text, ScrollView, Image, ToastAndroid
 } from 'react-native';
 import { AccessToken, LoginButton } from 'react-native-fbsdk'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import styles from '../assets/css/Main'
 import firebase from 'react-native-firebase'
-import { compose, setStatic, withHandlers } from 'recompose';
+import { compose, setStatic, withHandlers, withState } from 'recompose';
 import { withFirebase } from 'react-redux-firebase'
 import { FormInput, Button } from 'react-native-elements'
 import LinearGradient from 'react-native-linear-gradient';
 
-export const Registration = ({ auth, profile, login }) => {
+export const Registration = ({ login, setEmail, setPassword, setFirstName, setLastName, registerPressed }) => {
 
 
-    signIn = async () => {
-        try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-            this.setState({ userInfo });
-            this.props.googleLogin(userInfo);
-        } catch (error) {
-            console.log('error', error);
-        }
-    };
+    signIn = () => {
+        GoogleSignin.signIn()
+            .then((data) => {
+                const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+                return firebase.auth().signInAndRetrieveDataWithCredential(credential);
+            })
+            .then((user) => {
+                navigation.navigate('HomeScreen')
+            })
+            .catch((error) => {
+                ToastAndroid.show('Error while loging with Google! Please try again')
+            });
+    }
 
     return (
         <ScrollView style={styles.mainContainer}>
@@ -39,15 +42,16 @@ export const Registration = ({ auth, profile, login }) => {
             <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 25, alignSelf: 'center' }}>Sign Up</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <FormInput inputStyle={styles.inputFieldsRow} placeholder="First Name" />
-                    <FormInput inputStyle={styles.inputFieldsRow} placeholder="Last Name" />
+                    <FormInput inputStyle={styles.inputFieldsRow} onChangeText={setFirstName} placeholder="First Name *" />
+                    <FormInput inputStyle={styles.inputFieldsRow} onChangeText={setLastName} placeholder="Last Name *" />
                 </View>
-                <FormInput inputStyle={styles.inputFields} placeholder="Email" />
-                <FormInput inputStyle={styles.inputFields} placeholder="Password" />
+                <FormInput inputStyle={styles.inputFields} onChangeText={setEmail} placeholder="Email *" />
+                <FormInput inputStyle={styles.inputFields} secureTextEntry onChangeText={setPassword} placeholder="Password *" />
                 <Button
                     large
                     textStyle={{ color: 'white', fontSize: 20 }}
                     buttonStyle={styles.buttonLogin}
+                    onPress={registerPressed}
                     title='Sign Up' />
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
@@ -74,6 +78,12 @@ export const Registration = ({ auth, profile, login }) => {
                                             let accessToken = data.accessToken;
                                             const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
                                             firebase.auth().signInAndRetrieveDataWithCredential(credential)
+                                                .then(() => {
+                                                    navigation.navigate('HomeScreen')
+                                                })
+                                                .catch((error) => {
+                                                    ToastAndroid.show('Error while loging with Facebook! Please try again')
+                                                });
                                         })
                                 }
                             }
@@ -107,6 +117,10 @@ export default compose(
             header: null
         }
     ),
+    withState('email', 'setEmail', ''),
+    withState('password', 'setPassword', ''),
+    withState('firstName', 'setFirstName', ''),
+    withState('lastName', 'setLastName', ''),
     withFirebase,
     connect((state) => {
         return {
@@ -115,6 +129,39 @@ export default compose(
         }
     }),
     withHandlers({
+        registerPressed: props => () => {
+            if (props.email && props.password && props.firstName && props.lastName) {
+                firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(props.email, props.password)
+                    .then((confirmResult) => {
+                        var user = firebase.auth().currentUser;
+                        user.updateProfile({
+                            displayName: props.firstName + props.lastName,
+                        }).then(function () {
+                            props.navigation.navigate('HomeScreen')
+                        }).catch(function (error) {
+                            ToastAndroid.show('Error, something went wrong. Please try again!', ToastAndroid.SHORT);
+                        });
+
+                    })
+                    .catch((error) => {
+                        switch (error.code) {
+                            case "auth/email-already-in-use":
+                                ToastAndroid.show('Email already exists!', ToastAndroid.SHORT);
+                                break;
+                            case "auth/invalid-email":
+                                ToastAndroid.show('Invalid email entered!', ToastAndroid.SHORT);
+                                break;
+                            case "auth/weak-password":
+                                ToastAndroid.show('Password must be at least 6 characters long!', ToastAndroid.SHORT);
+                                break;
+                            default:
+                                console.log("Error logging user in:", error);
+                        }
+                    })
+            } else {
+                ToastAndroid.show('Please enter all required fields!', ToastAndroid.SHORT);
+            }
+        },
         login: props => event => {
             return props.navigation.pop();
         },
