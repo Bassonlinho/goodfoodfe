@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Alert, StyleSheet, Text, View, TextInput,
-    BackHandler, TouchableHighlight, ToastAndroid
+    View, Text, ScrollView, Image, TouchableHighlight, Alert
 } from 'react-native';
-import { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
+import { AccessToken, LoginButton } from 'react-native-fbsdk'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import styles from '../assets/css/Main'
+import firebase from 'react-native-firebase'
+import { compose, setStatic, withHandlers } from 'recompose';
+import { withFirebase } from 'react-redux-firebase'
+import { FormInput, Button } from 'react-native-elements'
+import LinearGradient from 'react-native-linear-gradient';
+
+export const Registration = ({ auth, profile, login }) => {
 
 
-class Registration extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-            userInfo: {}
-        }
-    }
-
-    componentDidMount() {
-        GoogleSignin.configure({
-            webClientId: '726136803927-o85mm0rea6j945abh6hcedm6bfpmq27r.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-            offlineAccess: false, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-            forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
-        });
-    }
     signIn = async () => {
         try {
             await GoogleSignin.hasPlayServices();
@@ -36,90 +26,98 @@ class Registration extends Component {
         }
     };
 
-    render() {
-        return (
-            <View>
-                <View style={{ marginTop: 10 }}>
+    return (
+        <ScrollView style={styles.mainContainer}>
+            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
+                <View
+                    style={styles.loginBar}>
+                    <Image source={require('../assets/img/Logo.png')}
+                        style={styles.photo}
+                        resizeMode={'contain'} />
+                </View>
+            </LinearGradient>
+            <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 25, alignSelf: 'center' }}>Sign Up</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <FormInput inputStyle={styles.inputFieldsRow} placeholder="First Name" />
+                    <FormInput inputStyle={styles.inputFieldsRow} placeholder="Last Name" />
+                </View>
+                <FormInput inputStyle={styles.inputFields} placeholder="Email" />
+                <FormInput inputStyle={styles.inputFields} placeholder="Password" />
+                <Button
+                    large
+                    textStyle={{ color: 'white', fontSize: 20 }}
+                    buttonStyle={styles.buttonLogin}
+                    title='Sign Up' />
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
+                    <Text style={{ alignSelf: 'center', paddingHorizontal: 5, fontSize: 15 }}>Sign up quickly with</Text>
+                    <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <LoginButton
+                        style={{
+                            width: 145,
+                            height: 31,
+                            marginTop: 4
+                        }}
+                        readPermissions={["email", "public_profile"]}
+                        onLoginFinished={
+                            (error, result) => {
+                                if (error) {
+                                    console.log('fb error1', JSON.stringify(error))
+                                } else if (result.isCancelled) {
+                                    console.log("login is cancelled.");
+                                } else {
+                                    AccessToken.getCurrentAccessToken().then(
+                                        (data) => {
+                                            let accessToken = data.accessToken;
+                                            const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
+                                            firebase.auth().signInAndRetrieveDataWithCredential(credential)
+                                        })
+                                }
+                            }
+                        }
+                        onLogoutFinished={() => console.log("logout.")} />
                     <GoogleSigninButton
                         style={{
-                            borderRadius: 5,
-                            width: 290,
-                            height: 48,
+                            width: 145,
+                            height: 37,
                         }}
                         size={GoogleSigninButton.Size.Wide}
                         color={GoogleSigninButton.Color.Dark}
                         onPress={this.signIn} />
-                    {this.state.facebookLoging || !this.props.facebookLogedIn &&
-                        <LoginButton
-                            style={{
-                                borderRadius: 5,
-                                width: 280,
-                                height: 35,
-                                marginLeft: 5
-                            }}
-                            readPermissions={["email", "public_profile"]}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        console.log('fb error1', JSON.stringify(error))
-                                        ToastAndroid.show(I18n.t("internal_server_error"), ToastAndroid.SHORT);
-                                    } else if (result.isCancelled) {
-                                        console.log("login is cancelled.");
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                let accessToken = data.accessToken;
-
-                                                const responseInfoCallback = (error, result) => {
-                                                    if (error) {
-                                                        console.log('fb error2', JSON.stringify(error))
-                                                    } else {
-                                                        this.setState({
-                                                            fb_profile: result,
-                                                        })
-                                                    }
-                                                }
-
-                                                const infoRequest = new GraphRequest(
-                                                    '/me',
-                                                    {
-                                                        accessToken: accessToken,
-                                                        parameters: {
-                                                            fields: {
-                                                                string: 'email,first_name,middle_name,last_name'
-                                                            }
-                                                        }
-                                                    },
-                                                    responseInfoCallback
-                                                );
-
-                                                // Start the graph request.
-                                                new GraphRequestManager().addRequest(infoRequest).start();
-
-                                            })
-                                    }
-                                }
-                            }
-                            onLogoutFinished={() => console.log("logout.")} />
-                    }
                 </View>
-            </View >
-        );
-    }
+                <Button
+                    large
+                    onPress={login}
+                    buttonStyle={styles.buttonRegister}
+                    textStyle={styles.buttonText}
+                    title='Have an account? Sign in' />
+                <Text style={{ alignContent: 'center', marginLeft: 50, marginRight: 50, fontSize: 12, marginTop: 10, marginBottom: 20 }}>By clicking 'Sign in' or 'Facebook' or 'Google' you agree to the Terms of Use and Privacy Policy</Text>
+            </View>
+        </ScrollView >
+    );
 }
 
-function mapStateToProps(state) {
-    return {
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-    };
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Registration);
+export default compose(
+    setStatic(
+        'navigationOptions',
+        {
+            header: null
+        }
+    ),
+    withFirebase,
+    connect((state) => {
+        return {
+            auth: state.firebase.auth,
+            profile: state.firebase.profile
+        }
+    }),
+    withHandlers({
+        login: props => event => {
+            return props.navigation.pop();
+        },
+    })
+)(Registration)
 

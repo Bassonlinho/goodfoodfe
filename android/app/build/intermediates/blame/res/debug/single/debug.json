@@ -1132,10 +1132,6 @@
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/drawable-hdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
-        "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "/home/nemanja/goodfood/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
-    },
-    {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/drawable-xxxhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
     },
@@ -1436,10 +1432,6 @@
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/cb03889b578189c535e8f92feb09c66c/res/layout/redbox_item_frame.xml"
     },
     {
-        "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "/home/nemanja/goodfood/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
-    },
-    {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/drawable-mdpi-v4/abc_btn_check_to_on_mtrl_000.png"
     },
@@ -1714,10 +1706,6 @@
     {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/anim_catalyst_push_up_out.xml.flat",
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/cb03889b578189c535e8f92feb09c66c/res/anim/catalyst_push_up_out.xml"
-    },
-    {
-        "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "/home/nemanja/goodfood/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
     },
     {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
@@ -2340,10 +2328,6 @@
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/dce4f07d5914f9b84b222a712e2794cd/res/layout/notification_template_big_media_custom.xml"
     },
     {
-        "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/home/nemanja/goodfood/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
-    },
-    {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/drawable-mdpi-v4/abc_ic_star_black_36dp.png"
     },
@@ -2402,10 +2386,6 @@
     {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/color_common_google_signin_btn_text_light.xml.flat",
         "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/9265f0c20814cbbf4125115a2eceb47d/res/color/common_google_signin_btn_text_light.xml"
-    },
-    {
-        "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "/home/nemanja/goodfood/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
     },
     {
         "merged": "/home/nemanja/goodfood/android/app/build/intermediates/res/merged/debug/raw_amu_ground_overlay_color.kml.flat",

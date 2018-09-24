@@ -172,6 +172,7 @@ dependencies {
        exclude group: 'com.google.android.gms', module: 'play-services-base'
        exclude group: 'com.google.android.gms', module: 'play-services-maps'
    }
+   compile project(':react-native-linear-gradient')
    implementation 'com.google.firebase:firebase-core:+'
    implementation 'com.google.android.gms:play-services-gcm:+'
    implementation 'com.google.firebase:firebase-messaging:+'

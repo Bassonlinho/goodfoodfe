@@ -4,6 +4,7 @@ ADDED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml:1:1-4
 INJECTED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml:1:1-45:12
 INJECTED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml:1:1-45:12
 INJECTED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml:1:1-45:12
+MERGED from [:react-native-linear-gradient] /home/nemanja/goodfood/node_modules/react-native-linear-gradient/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-firebase] /home/nemanja/goodfood/node_modules/react-native-firebase/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [com.android.support:multidex:1.0.2] /home/nemanja/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/f6f22633063cfb913fe0e08f41077da4/AndroidManifest.xml:17:1-22:12
 MERGED from [:react-native-vector-icons] /home/nemanja/goodfood/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
@@ -310,6 +311,8 @@ uses-sdk
 INJECTED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/nemanja/goodfood/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-linear-gradient] /home/nemanja/goodfood/node_modules/react-native-linear-gradient/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-linear-gradient] /home/nemanja/goodfood/node_modules/react-native-linear-gradient/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-firebase] /home/nemanja/goodfood/node_modules/react-native-firebase/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-firebase] /home/nemanja/goodfood/node_modules/react-native-firebase/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:multidex:1.0.2] /home/nemanja/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/f6f22633063cfb913fe0e08f41077da4/AndroidManifest.xml:20:5-43
