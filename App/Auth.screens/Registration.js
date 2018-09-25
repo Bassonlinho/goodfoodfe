@@ -104,7 +104,7 @@ export const Registration = ({ login, setEmail, setPassword, setFirstName, setLa
                     buttonStyle={styles.buttonRegister}
                     textStyle={styles.buttonText}
                     title='Have an account? Sign in' />
-                <Text style={{ alignContent: 'center', marginLeft: 50, marginRight: 50, fontSize: 12, marginTop: 10, marginBottom: 20 }}>By clicking 'Sign in' or 'Facebook' or 'Google' you agree to the Terms of Use and Privacy Policy</Text>
+                <Text style={{ alignContent: 'center', marginLeft: 50, marginRight: 50, fontSize: 12, marginTop: 10, marginBottom: 20 }}>By clicking 'Sign Up' or 'Facebook' or 'Google' you agree to the Terms of Use and Privacy Policy</Text>
             </View>
         </ScrollView >
     );

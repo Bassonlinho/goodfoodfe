@@ -1,14 +1,18 @@
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withFirebase, isEmpty } from 'react-redux-firebase'
+import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
+import React from "react";
+import firebase from 'react-native-firebase'
+export const LoadingScreen = ({ auth, navigation, profile }) => {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            navigation.navigate('HomeScreen');
+        } else {
+            navigation.navigate('Login')
+        }
+    });
 
-export const LoadingScreen = ({ auth, navigation }) => {
-
-    const route = isEmpty(auth)
-        ? 'Login'
-        : 'HomeScreen';
-    navigation.navigate(route);
 
     return null;
 
