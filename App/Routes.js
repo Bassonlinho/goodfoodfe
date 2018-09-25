@@ -1,26 +1,25 @@
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import Login from './Auth.screens/Login';
 import Registration from './Auth.screens/Registration';
-import WalletScreen from './Menu.screens/WalletScreen';
-// import HomeScreen from './Menu.screens/HomeScreen';
+import HomeScreen from './Menu.screens/HomeScreen';
+import LoadingScreen from './Auth.screens/LoadingScreen';
 // import Menu from './Menu.screens/Menu';
 const AppStack = createStackNavigator({
-    // HomeScreen: HomeScreen,
+    HomeScreen: HomeScreen,
     // Menu: Menu
-    Login: Login,
-    Wallet: WalletScreen
+    Login: Login
 });
 
 const AuthStack = createStackNavigator({ Login: Login, Registration: Registration });
 
 export default createSwitchNavigator(
     {
+        LoadingScreen: LoadingScreen,
         Login: Login,
-        Wallet: WalletScreen,
         App: AppStack,
         Auth: AuthStack,
     },
     {
-        initialRouteName: 'Wallet',
+        initialRouteName: 'LoadingScreen',
     }
 );
