@@ -9,7 +9,7 @@ import { compose, setStatic, withHandlers, withState } from 'recompose';
 import { GoogleSignin } from 'react-native-google-signin';
 import { LoginManager } from 'react-native-fbsdk'
 import { withFirebase, isEmpty } from 'react-redux-firebase'
-export const Menu = ({ auth, wallet, logOut, navigation }) => {
+export const Menu = ({ auth, wallet, logOut, navigation, trace }) => {
 
 
     return (
@@ -40,9 +40,11 @@ export const Menu = ({ auth, wallet, logOut, navigation }) => {
             <View style={styles.rowElement}>
                 <Text style={styles.text}>My demands</Text>
             </View>
-            <View style={styles.rowElement}>
-                <Text style={styles.text}>Trace</Text>
-            </View>
+            <TouchableHighlight onPress={trace} >
+                <View style={styles.rowElement}>
+                    <Text style={styles.text}>Trace</Text>
+                </View>
+            </TouchableHighlight>
             <TouchableHighlight onPress={wallet} >
                 <View style={styles.rowElement}>
                     <Text style={styles.text}>Wallet</Text>
@@ -88,5 +90,8 @@ export default compose(
         wallet: props => () => {
             return props.navigation.navigate('WalletScreen');
         },
+        trace: props => () => {
+            return props.navigation.navigate('Trace');
+        }
     })
 )(Menu)

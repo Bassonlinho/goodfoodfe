@@ -5,8 +5,10 @@ import HomeScreen from './Menu.screens/HomeScreen';
 import LoadingScreen from './Auth.screens/LoadingScreen';
 import Menu from './Menu.screens/Menu';
 import WalletScreen from './Menu.screens/WalletScreen';
+import Trace from './Menu.screens/Trace'
 const AppStack = createStackNavigator({
     HomeScreen: HomeScreen,
+    Trace: Trace,
     Menu: Menu,
     Login: Login,
     WalletScreen: WalletScreen
