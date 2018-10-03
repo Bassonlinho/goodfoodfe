@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
     View, Text, ScrollView, Image, ToastAndroid
@@ -6,20 +6,52 @@ import {
 import { AccessToken, LoginButton } from 'react-native-fbsdk'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import styles from '../assets/css/Main'
-import firebase from 'react-native-firebase'
-import { compose, setStatic, withHandlers, withState } from 'recompose';
-import { withFirebase } from 'react-redux-firebase'
 import { FormInput, Button } from 'react-native-elements'
 import LinearGradient from 'react-native-linear-gradient';
+import { createAccount } from '../actions/GlobalActions';
+class Registration extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: ''
 
-export const Registration = ({ login, setEmail, setPassword, setFirstName, setLastName, registerPressed }) => {
+        }
+    }
+    static navigationOptions = {
+        header: null
+    };
 
+
+    componentDidMount() {
+        let fb_profile = this.props.navigation.getParam('fb_profile');
+        let gmail_profile = this.props.navigation.getParam('gmail_profile');
+        if (fb_profile && fb_profile.id) {
+            this.setState({
+                firstName: fb_profile.first_name,
+                lastName: fb_profile.last_name,
+                email: fb_profile.email,
+            })
+        }
+        if (gmail_profile && gmail_profile.id) {
+            let name = gmail_profile.name.split(" ");
+            let firstName = name[0];
+            let lastName = name[1];
+            this.setState({
+                firstName: firstName,
+                lastName: lastName,
+                email: gmail_profile.email,
+            })
+        }
+    }
 
     signIn = () => {
         GoogleSignin.signIn()
             .then((data) => {
-                const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
-                return firebase.auth().signInAndRetrieveDataWithCredential(credential);
+                // const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+                // return firebase.auth().signInAndRetrieveDataWithCredential(credential);
             })
             .then((user) => {
                 navigation.navigate('HomeScreen')
@@ -29,142 +61,139 @@ export const Registration = ({ login, setEmail, setPassword, setFirstName, setLa
             });
     }
 
-    return (
-        <ScrollView style={styles.mainContainer}>
-            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
-                <View
-                    style={styles.loginBar}>
-                    <Image source={require('../assets/img/Logo.png')}
-                        style={styles.photo}
-                        resizeMode={'contain'} />
-                </View>
-            </LinearGradient>
-            <View style={{ alignItems: 'center' }}>
-                <Text style={{ fontSize: 25, alignSelf: 'center' }}>Sign Up</Text>
-                <View style={{ flexDirection: 'row' }}>
-                    <FormInput inputStyle={styles.inputFieldsRow} onChangeText={setFirstName} placeholder="First Name *" />
-                    <FormInput inputStyle={styles.inputFieldsRow} onChangeText={setLastName} placeholder="Last Name *" />
-                </View>
-                <FormInput inputStyle={styles.inputFields} onChangeText={setEmail} placeholder="Email *" />
-                <FormInput inputStyle={styles.inputFields} secureTextEntry onChangeText={setPassword} placeholder="Password *" />
-                <Button
-                    large
-                    textStyle={{ color: 'white', fontSize: 20 }}
-                    buttonStyle={styles.buttonLogin}
-                    onPress={registerPressed}
-                    title='Sign Up' />
-                <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
-                    <Text style={{ alignSelf: 'center', paddingHorizontal: 5, fontSize: 15 }}>Sign up quickly with</Text>
-                    <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                    <LoginButton
-                        style={{
-                            width: 145,
-                            height: 31,
-                            marginTop: 4
-                        }}
-                        readPermissions={["email", "public_profile"]}
-                        onLoginFinished={
-                            (error, result) => {
-                                if (error) {
-                                    console.log('fb error1', JSON.stringify(error))
-                                } else if (result.isCancelled) {
-                                    console.log("login is cancelled.");
-                                } else {
-                                    AccessToken.getCurrentAccessToken().then(
-                                        (data) => {
-                                            let accessToken = data.accessToken;
-                                            const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
-                                            firebase.auth().signInAndRetrieveDataWithCredential(credential)
-                                                .then(() => {
-                                                    navigation.navigate('HomeScreen')
-                                                })
-                                                .catch((error) => {
-                                                    ToastAndroid.show('Error while loging with Facebook! Please try again')
-                                                });
-                                        })
+    isEditable() {
+        let option;
+        let fb_profile = this.props.navigation.getParam('fb_profile');
+        let gmail_profile = this.props.navigation.getParam('gmail_profile');
+        if ((gmail_profile && gmail_profile.id) || (fb_profile && fb_profile.id)) {
+            option = false;
+        } else {
+            option = true;
+        }
+        return option;
+    }
+
+    loginPressed = () => {
+        this.props.navigation.pop();
+    }
+
+    registerPressed = () => {
+        let fb_profile = this.props.navigation.getParam('fb_profile');
+        let gmail_profile = this.props.navigation.getParam('gmail_profile');
+        if (this.state.email &&
+            this.state.password &&
+            this.state.firstName &&
+            this.state.lastName) {
+            this.props.createAccount(
+                this.state.email,
+                this.state.password,
+                this.state.firstName,
+                this.state.lastName,
+                fb_profile,
+                gmail_profile
+            )
+        }
+    }
+
+
+    render() {
+        return (
+            <ScrollView style={styles.mainContainer} >
+                <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
+                    <View
+                        style={styles.loginBar}>
+                        <Image source={require('../assets/img/Logo.png')}
+                            style={styles.photo}
+                            resizeMode={'contain'} />
+                    </View>
+                </LinearGradient>
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={{ fontSize: 25, alignSelf: 'center' }}>Sign Up</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <FormInput inputStyle={styles.inputFieldsRow} defaultValue={this.state.firstName} editable={this.isEditable()} onChangeText={(firstName) => this.setState({ firstName: firstName })} placeholder="First Name *" />
+                        <FormInput inputStyle={styles.inputFieldsRow} defaultValue={this.state.lastName} editable={this.isEditable()} onChangeText={(lastName) => this.setState({ lastName: lastName })} placeholder="Last Name *" />
+                    </View>
+                    <FormInput inputStyle={styles.inputFields} defaultValue={this.state.email} editable={this.isEditable()} onChangeText={(email) => this.setState({ email: email })} placeholder="Email *" />
+                    <FormInput inputStyle={styles.inputFields} secureTextEntry onChangeText={(password) => this.setState({ password: password })} placeholder="Password *" />
+                    <Button
+                        large
+                        textStyle={{ color: 'white', fontSize: 20 }}
+                        buttonStyle={styles.buttonLogin}
+                        onPress={this.registerPressed}
+                        title='Sign Up' />
+                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                        <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
+                        <Text style={{ alignSelf: 'center', paddingHorizontal: 5, fontSize: 15 }}>Sign up quickly with</Text>
+                        <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                        <LoginButton
+                            style={{
+                                width: 145,
+                                height: 31,
+                                marginTop: 4
+                            }}
+                            readPermissions={["email", "public_profile"]}
+                            onLoginFinished={
+                                (error, result) => {
+                                    if (error) {
+                                        console.log('fb error1', JSON.stringify(error))
+                                    } else if (result.isCancelled) {
+                                        console.log("login is cancelled.");
+                                    } else {
+                                        AccessToken.getCurrentAccessToken().then(
+                                            (data) => {
+                                                let accessToken = data.accessToken;
+                                                // const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
+                                                // firebase.auth().signInAndRetrieveDataWithCredential(credential)
+                                                //     .then(() => {
+                                                //         navigation.navigate('HomeScreen')
+                                                //     })
+                                                //     .catch((error) => {
+                                                //         ToastAndroid.show('Error while loging with Facebook! Please try again')
+                                                //     });
+                                            })
+                                    }
                                 }
                             }
-                        }
-                        onLogoutFinished={() => console.log("logout.")} />
-                    <GoogleSigninButton
-                        style={{
-                            width: 145,
-                            height: 37,
-                        }}
-                        size={GoogleSigninButton.Size.Wide}
-                        color={GoogleSigninButton.Color.Dark}
-                        onPress={this.signIn} />
+                            onLogoutFinished={() => console.log("logout.")} />
+                        <GoogleSigninButton
+                            style={{
+                                width: 145,
+                                height: 37,
+                            }}
+                            size={GoogleSigninButton.Size.Wide}
+                            color={GoogleSigninButton.Color.Dark}
+                            onPress={this.signIn} />
+                    </View>
+                    <Button
+                        large
+                        onPress={this.loginPressed}
+                        buttonStyle={styles.buttonRegister}
+                        textStyle={styles.buttonText}
+                        title='Have an account? Sign in' />
+                    <Text style={{ alignContent: 'center', marginLeft: 50, marginRight: 50, fontSize: 12, marginTop: 10, marginBottom: 20 }}>By clicking 'Sign Up' or 'Facebook' or 'Google' you agree to the Terms of Use and Privacy Policy</Text>
                 </View>
-                <Button
-                    large
-                    onPress={login}
-                    buttonStyle={styles.buttonRegister}
-                    textStyle={styles.buttonText}
-                    title='Have an account? Sign in' />
-                <Text style={{ alignContent: 'center', marginLeft: 50, marginRight: 50, fontSize: 12, marginTop: 10, marginBottom: 20 }}>By clicking 'Sign Up' or 'Facebook' or 'Google' you agree to the Terms of Use and Privacy Policy</Text>
-            </View>
-        </ScrollView >
-    );
+            </ScrollView >
+        );
+    }
+}
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.globalReducer.errorMessage,
+        registerFailed: state.globalReducer.registerFailed,
+    };
 }
 
-export default compose(
-    setStatic(
-        'navigationOptions',
-        {
-            header: null
-        }
-    ),
-    withState('email', 'setEmail', ''),
-    withState('password', 'setPassword', ''),
-    withState('firstName', 'setFirstName', ''),
-    withState('lastName', 'setLastName', ''),
-    withFirebase,
-    connect((state) => {
-        return {
-            auth: state.firebase.auth,
-            profile: state.firebase.profile
-        }
-    }),
-    withHandlers({
-        registerPressed: props => () => {
-            if (props.email && props.password && props.firstName && props.lastName) {
-                firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(props.email, props.password)
-                    .then((confirmResult) => {
-                        var user = firebase.auth().currentUser;
-                        user.updateProfile({
-                            displayName: props.firstName + props.lastName,
-                        }).then(function () {
-                            props.navigation.navigate('HomeScreen')
-                        }).catch(function (error) {
-                            ToastAndroid.show('Error, something went wrong. Please try again!', ToastAndroid.SHORT);
-                        });
+function mapDispatchToProps(dispatch) {
+    return {
+        setInitialState: (component) => dispatch(setInitialState(component)),
+        createAccount: (email, password, firstName, lastName, fb_profile, gmail_profile) => dispatch(createAccount(email, password, firstName, lastName, fb_profile, gmail_profile))
+    };
+}
 
-                    })
-                    .catch((error) => {
-                        switch (error.code) {
-                            case "auth/email-already-in-use":
-                                ToastAndroid.show('Email already exists!', ToastAndroid.SHORT);
-                                break;
-                            case "auth/invalid-email":
-                                ToastAndroid.show('Invalid email entered!', ToastAndroid.SHORT);
-                                break;
-                            case "auth/weak-password":
-                                ToastAndroid.show('Password must be at least 6 characters long!', ToastAndroid.SHORT);
-                                break;
-                            default:
-                                console.log("Error logging user in:", error);
-                        }
-                    })
-            } else {
-                ToastAndroid.show('Please enter all required fields!', ToastAndroid.SHORT);
-            }
-        },
-        login: props => event => {
-            return props.navigation.pop();
-        },
-    })
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
 )(Registration)
 

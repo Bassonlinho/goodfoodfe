@@ -3,9 +3,7 @@ import {
     View, ToastAndroid, Text, Dimensions, Image, ScrollView
 } from 'react-native';
 import styles from '../assets/css/Main'
-import { compose, setStatic, withHandlers, withState } from 'recompose';
 import { connect } from 'react-redux';
-import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { GoogleSignin } from 'react-native-google-signin';
 import { LoginManager } from 'react-native-fbsdk'
 import Drawer from 'react-native-drawer';
@@ -221,18 +219,7 @@ class HomeScreen extends React.Component {
     }
 }
 
-export default compose(
-    setStatic(
-        'navigationOptions',
-        {
-            header: null
-        }
-    ),
-    connect((state) => {
-        return {
-            auth: state.firebase.auth,
-            profile: state.firebase.profile
-        }
-    })
+export default connect(
+
 )(HomeScreen)
 

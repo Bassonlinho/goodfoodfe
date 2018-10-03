@@ -167,7 +167,6 @@ android {
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.1'
-    implementation project(':react-native-firebase')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-onesignal')
     implementation(project(":react-native-google-signin")){
@@ -184,12 +183,9 @@ dependencies {
        exclude group: 'com.google.android.gms', module: 'play-services-maps'
    }
    compile project(':react-native-linear-gradient')
-   implementation 'com.google.firebase:firebase-core:+'
    implementation 'com.google.android.gms:play-services-gcm:+'
    implementation 'com.google.firebase:firebase-messaging:+'
    implementation 'com.google.firebase:firebase-analytics-impl:+'
-   implementation 'com.google.firebase:firebase-auth:+'
-   implementation 'com.google.firebase:firebase-database:+'
    implementation "com.google.android.gms:play-services-places:+"
    implementation "com.google.android.gms:play-services-location:+"
    implementation 'com.google.android.gms:play-services-stats:+'
