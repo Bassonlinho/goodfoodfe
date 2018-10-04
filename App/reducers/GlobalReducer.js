@@ -25,6 +25,7 @@ export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
 
         case GlobalActionType.LOGOUT:
+            AsyncStorage.clear();
             return INITIAL_STATE;
             break;
 
@@ -68,7 +69,6 @@ export default function (state = INITIAL_STATE, action) {
         case GlobalActionType.LOGIN_SUCCESS: {
             let token = action.data.token;
             let user = action.data.user
-            console.log('user, token', user, token);
 
             AsyncStorage.setItem('token', token);
             AsyncStorage.setItem('user', JSON.stringify(user));
@@ -93,8 +93,7 @@ export default function (state = INITIAL_STATE, action) {
             let facebookLoging = false;
             let facebookLogedIn = true;
             let token = action.data.token;
-            let user = action.data.korisnik;
-            console.log('action.data', action.data);
+            let user = action.data.user;
             AsyncStorage.setItem('token', token);
             AsyncStorage.setItem('user', JSON.stringify(user));
             return state.merge({ facebookLoging, facebookLogedIn, token, user })
@@ -103,7 +102,6 @@ export default function (state = INITIAL_STATE, action) {
         case GlobalActionType.FB_LOGIN_FAILED: {
             let facebookLogingFailed = true;
             let facebookLoging = false;
-            console.log('action.data.error', action.data);
             return state.merge({ facebookLoging, facebookLogingFailed });
             break;
         }

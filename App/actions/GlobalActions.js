@@ -60,7 +60,6 @@ export function loginWithUsername(username, password) {
                 });
             })
             .catch(function (error) {
-                console.log('error', error);
                 dispatch({
                     type: Type.LOGIN_FAILED
                 });
@@ -79,14 +78,12 @@ export function facebookLogin(user) {
             fb_profile: user
         })
             .then(function (response) {
-                console.log('resp', response);
                 dispatch({
                     type: Type.FB_LOGIN_SUCCESS,
                     data: response.data
                 });
             })
             .catch(function (error) {
-                console.log('error', error);
                 dispatch({
                     type: Type.FB_LOGIN_FAILED,
                     data: error

@@ -51,10 +51,8 @@ class Login extends React.Component {
     signInWithGoogle = () => {
         GoogleSignin.signIn()
             .then((data) => {
-                console.log('data', data);
-            })
-            .then((user) => {
-                console.log('user', user);
+                this.setState({ gmail_profile: data.user })
+                this.props.googleLogin(data.user);
             })
             .catch((error) => {
                 ToastAndroid.show('Error while loging with Google! Please try again')

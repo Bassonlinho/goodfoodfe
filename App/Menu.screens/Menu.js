@@ -19,7 +19,18 @@ class Menu extends React.Component {
         header: null
     };
 
+    _signOut = async () => {
+        try {
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
     logOut = () => {
+        LoginManager.logOut();
+        this._signOut();
         this.props.logout();
         this.props.navigation.replace('Login');
     }
