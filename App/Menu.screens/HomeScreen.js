@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    View, ToastAndroid, Text, Dimensions, Image, ScrollView
+    View, ToastAndroid, Text, Dimensions, Image, ScrollView,
+    FlatList
 } from 'react-native';
 import styles from '../assets/css/Main'
 import { connect } from 'react-redux';
@@ -18,7 +19,14 @@ const ASPECT_RATIO = width / height;
 const LONGITUDE_DELTA = 0.0022
 const LATITUDE_DELTA = 0.0022
 import TabNavigator from 'react-native-tab-navigator';
+import {
+    getItemById, getItems
+} from '../actions/ItemActions';
+
 class HomeScreen extends React.Component {
+    static navigationOptions = {
+        header: null
+    };
     constructor() {
         super();
         this.state = {
@@ -29,8 +37,12 @@ class HomeScreen extends React.Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA
             },
+            items: []
         };
 
+    }
+    componentDidMount() {
+        this.props.getItems();
     }
 
     closeControlPanel = () => {
@@ -48,6 +60,28 @@ class HomeScreen extends React.Component {
     onRegionChange(region) {
         this.setState({ region });
     }
+
+    _keyExtractor = (item, index) => item.id;
+
+    _renderItem = ({ item }) => (
+        <View key={item.id} style={{ width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
+            <View style={styles.redSquareMP}>
+                <Image source={require('../assets/img/potato.jpg')}
+                    style={{
+                        height: 120,
+                        width: 150,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                    }} />
+            </View>
+            <View style={styles.columnMP}>
+                <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.name}</Text>
+                <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.description}</Text>
+                <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD {item.price} /KG</Text>
+            </View>
+
+        </View>
+    );
 
     render() {
         return (
@@ -98,85 +132,12 @@ class HomeScreen extends React.Component {
                         titleStyle={{ color: '#fff', fontSize: 16 }}
                         onPress={() => this.setState({ selectedTab: 'list' })}>
                         <ScrollView style={styles.mainContainer}>
-                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 25 }}>
-                                <View style={{ width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
-                                    <View style={styles.redSquareMP}>
-                                        <Image source={require('../assets/img/potato.jpg')}
-                                            style={{
-                                                height: 120,
-                                                width: 150,
-                                                borderWidth: 1,
-                                                borderRadius: 5,
-                                            }} />
-                                    </View>
-                                    <View style={styles.columnMP}>
-
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Potato</Text>
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Delicious</Text>
-                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD 50 /KG</Text>
-                                    </View>
-
-                                </View>
-                                <View style={{ marginLeft: 5, width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
-                                    <View style={styles.redSquareMP}>
-                                        <Image source={require('../assets/img/carrots.jpg')}
-                                            style={{
-                                                height: 120,
-                                                width: 150,
-                                                borderWidth: 1,
-                                                borderRadius: 5,
-                                            }} />
-                                    </View>
-                                    <View style={styles.columnMP}>
-
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Carrots</Text>
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Sweet</Text>
-                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD 30 /KG</Text>
-
-                                    </View>
-
-                                </View>
-                            </View>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
-
-                                <View style={{ marginTop: 10, width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
-                                    <View style={styles.redSquareMP}>
-                                        <Image source={require('../assets/img/raspberries.jpg')}
-                                            style={{
-                                                height: 120,
-                                                width: 150,
-                                                borderWidth: 1,
-                                                borderRadius: 5,
-                                            }} />
-                                    </View>
-                                    <View style={styles.columnMP}>
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Raspberries</Text>
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Lorem ipsum</Text>
-                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD 120 /KG</Text>
-
-                                    </View>
-
-                                </View>
-                                <View style={{ marginTop: 10, marginLeft: 5, width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
-                                    <View style={styles.redSquareMP}>
-                                        <Image source={require('../assets/img/kupus.jpg')}
-                                            style={{
-                                                height: 120,
-                                                width: 150,
-                                                borderWidth: 1,
-                                                borderRadius: 5,
-                                            }} />
-                                    </View>
-                                    <View style={styles.columnMP}>
-
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Cabbage</Text>
-                                        <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>Lorem ipsum</Text>
-                                        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD 100 /KG</Text>
-
-                                    </View>
-
-                                </View>
-                            </View>
+                            <FlatList
+                                data={this.props.items}
+                                keyExtractor={this._keyExtractor}
+                                renderItem={this._renderItem}
+                                contentContainerStyle={styles.contentContainer}
+                            />
                         </ScrollView>
                     </TabNavigator.Item>
                     <TabNavigator.Item
@@ -218,8 +179,22 @@ class HomeScreen extends React.Component {
         );
     }
 }
+function mapStateToProps(state) {
+    return {
+        items: state.itemReducer.items,
+        itemsFetching: state.itemReducer.itemsFetching
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getItemById: (id) => dispatch(getItemById(id)),
+        getItems: () => dispatch(getItems()),
+    };
+}
 
 export default connect(
-
+    mapStateToProps,
+    mapDispatchToProps
 )(HomeScreen)
 

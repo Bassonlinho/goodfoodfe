@@ -139,5 +139,12 @@ export default StyleSheet.create({
         color: '#000',
         marginLeft: 12
     },
+    contentContainer: {
+        marginTop:40,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent:'space-around',
+        flex: 1
+    },
 
 })

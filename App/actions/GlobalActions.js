@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../utils/AxiosWrapper';
 import { config } from '../config/config';
 
 const serverUrl = config.serverUrl;
