@@ -19,6 +19,9 @@ const LONGITUDE_DELTA = 0.0022
 const LATITUDE_DELTA = 0.0022
 import TabNavigator from 'react-native-tab-navigator';
 class HomeScreen extends React.Component {
+    static navigationOptions = {
+        header: null
+    };
     constructor() {
         super();
         this.state = {
