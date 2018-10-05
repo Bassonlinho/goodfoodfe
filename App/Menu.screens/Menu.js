@@ -15,9 +15,9 @@ class Menu extends React.Component {
 
         }
     }
-    static navigationOptions = {
-        header: null
-    };
+    // static navigationOptions = {
+    //     header: null
+    // };
 
     _signOut = async () => {
         try {
