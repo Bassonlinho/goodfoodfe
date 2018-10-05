@@ -11,3 +11,15 @@ export const getToken = () => {
         }
     })
 };
+
+export const getUser = () => {
+    return AsyncStorage.getItem('user').then((user) => {
+        return user
+    }).then((user) => {
+        if (user) {
+            return JSON.parse(user);
+        } else {
+            return null;
+        }
+    })
+}

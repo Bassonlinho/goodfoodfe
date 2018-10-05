@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import {
     View, Text, ScrollView, Image, ToastAndroid
 } from 'react-native';
-import { AccessToken, LoginButton } from 'react-native-fbsdk'
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import styles from '../assets/css/Main'
 import { FormInput, Button } from 'react-native-elements'
 import LinearGradient from 'react-native-linear-gradient';
@@ -45,20 +43,6 @@ class Registration extends React.Component {
                 email: gmail_profile.email,
             })
         }
-    }
-
-    signIn = () => {
-        GoogleSignin.signIn()
-            .then((data) => {
-                // const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
-                // return firebase.auth().signInAndRetrieveDataWithCredential(credential);
-            })
-            .then((user) => {
-                navigation.navigate('HomeScreen')
-            })
-            .catch((error) => {
-                ToastAndroid.show('Error while loging with Google! Please try again')
-            });
     }
 
     isEditable() {
@@ -121,51 +105,6 @@ class Registration extends React.Component {
                         buttonStyle={styles.buttonLogin}
                         onPress={this.registerPressed}
                         title='Sign Up' />
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
-                        <Text style={{ alignSelf: 'center', paddingHorizontal: 5, fontSize: 15 }}>Sign up quickly with</Text>
-                        <View style={{ backgroundColor: '#d3d3d3', height: 1, flex: 1, alignSelf: 'center' }} />
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <LoginButton
-                            style={{
-                                width: 145,
-                                height: 31,
-                                marginTop: 4
-                            }}
-                            readPermissions={["email", "public_profile"]}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        console.log('fb error1', JSON.stringify(error))
-                                    } else if (result.isCancelled) {
-                                        console.log("login is cancelled.");
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                let accessToken = data.accessToken;
-                                                // const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
-                                                // firebase.auth().signInAndRetrieveDataWithCredential(credential)
-                                                //     .then(() => {
-                                                //         navigation.navigate('HomeScreen')
-                                                //     })
-                                                //     .catch((error) => {
-                                                //         ToastAndroid.show('Error while loging with Facebook! Please try again')
-                                                //     });
-                                            })
-                                    }
-                                }
-                            }
-                            onLogoutFinished={() => console.log("logout.")} />
-                        <GoogleSigninButton
-                            style={{
-                                width: 145,
-                                height: 37,
-                            }}
-                            size={GoogleSigninButton.Size.Wide}
-                            color={GoogleSigninButton.Color.Dark}
-                            onPress={this.signIn} />
-                    </View>
                     <Button
                         large
                         onPress={this.loginPressed}

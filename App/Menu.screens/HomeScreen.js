@@ -5,23 +5,17 @@ import {
 } from 'react-native';
 import styles from '../assets/css/Main'
 import { connect } from 'react-redux';
-import { GoogleSignin } from 'react-native-google-signin';
-import { LoginManager } from 'react-native-fbsdk'
 import Drawer from 'react-native-drawer';
-import { Header, SearchBar, Icon, Tile } from 'react-native-elements';
+import { Header, SearchBar, Icon } from 'react-native-elements';
 import drawerStyles from '../assets/css/Main';
 import Menu from './Menu';
-const { width, height } = Dimensions.get("window")
-import MapView from 'react-native-maps';
+const { width } = Dimensions.get("window")
 const SCREEN_WIDTH = width
-const SCREEN_HEIGHT = height
-const ASPECT_RATIO = width / height;
-const LONGITUDE_DELTA = 0.0022
-const LATITUDE_DELTA = 0.0022
 import TabNavigator from 'react-native-tab-navigator';
 import {
     getItemById, getItems
 } from '../actions/ItemActions';
+import MapList from '../components/Map/MapList';
 
 class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -31,12 +25,6 @@ class HomeScreen extends React.Component {
         super();
         this.state = {
             selectedTab: 'list',
-            region: {
-                latitude: 44.0165,
-                longitude: 21.0059,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA
-            },
             items: []
         };
 
@@ -147,32 +135,7 @@ class HomeScreen extends React.Component {
                         titleStyle={{ color: '#fff', fontSize: 16 }}
                         tabStyle={{ borderBottomWidth: this.state.selectedTab === 'map' ? 1 : 0, borderBottomColor: this.state.selectedTab === 'map' ? "white" : '#de4b39' }}
                         onPress={() => this.setState({ selectedTab: 'map' })}>
-                        <View style={styles.mainContainer}>
-                            <MapView
-                                style={styles.map2}
-                                mapType="hybrid"
-                                initialRegion={this.state.region}
-                                followUserLocation={false}
-                                onRegionChange={this.onRegionChange.bind(this)}
-                                showsUserLocation={false}
-                                loadingEnabled={true}
-                                showsMyLocationButton={false}
-                                rotateEnabled={false}>
-
-                                <MapView.Marker
-                                    coordinate={{ longitude: 21.0059, latitude: 44.0165 }}
-                                />
-                                <MapView.Marker
-                                    coordinate={{ longitude: 21.0062, latitude: 44.0175 }}
-                                />
-                                <MapView.Marker
-                                    coordinate={{ longitude: 21.0079, latitude: 44.0265 }}
-                                />
-                                <MapView.Marker
-                                    coordinate={{ longitude: 21.0089, latitude: 44.0185 }}
-                                />
-                            </MapView>
-                        </View>
+                        <MapList navigation={this.props.navigation} />
                     </TabNavigator.Item>
                 </TabNavigator>
             </Drawer >

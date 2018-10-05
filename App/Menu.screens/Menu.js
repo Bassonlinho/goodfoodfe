@@ -7,17 +7,32 @@ import { connect } from 'react-redux'
 import { GoogleSignin } from 'react-native-google-signin';
 import { LoginManager } from 'react-native-fbsdk'
 import { logout } from '../actions/GlobalActions';
-
+import { getUser } from '../utils/Common';
 class Menu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            user: null,
+            loading: true
         }
     }
-    // static navigationOptions = {
-    //     header: null
-    // };
+
+    componentDidMount() {
+        getUser()
+            .then((user) => {
+                if (user) {
+                    this.setState({
+                        user: user,
+                        loading: false
+                    })
+                } else {
+                    this.setState({
+                        loadingUserFailed: true,
+                        loading: false
+                    })
+                }
+            })
+    }
 
     _signOut = async () => {
         try {
@@ -36,6 +51,12 @@ class Menu extends React.Component {
     }
 
     render() {
+        const { loading, user
+        } = this.state;
+        console.log('user', user);
+        if (loading) {
+            return <Text style={{ flex: 1, alignContent: 'center' }}>Loading..</Text>;
+        }
         return (
             <View style={styles.menu} >
                 <LinearGradient style={{ height: 100 }} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
@@ -50,7 +71,7 @@ class Menu extends React.Component {
                             activeOpacity={0.7}
                         />
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={styles.displayName}>Nemanja Ristic</Text>
+                            <Text style={styles.displayName}>{user.name + ' ' + user.surname}</Text>
                             <Text style={{ fontSize: 14, color: 'white' }}>View Profile</Text>
                         </View>
                     </View>
