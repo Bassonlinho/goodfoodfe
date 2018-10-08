@@ -5,38 +5,44 @@ import {
 import styles from '../../assets/css/Main'
 import { connect } from 'react-redux';
 import { Icon, FormInput } from 'react-native-elements';
-import { setItemPropertyInReducer, createItem } from '../../actions/ItemActions';
+import { setItemPropertyInReducer, createItem, setInitialState } from '../../actions/ItemActions';
 import MapView from 'react-native-maps';
 class ItemForm extends React.Component {
-    static navigationOptions = {
-        title: 'Form',
-        headerStyle: {
-            backgroundColor: '#e24f2d',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            textAlign: "center",
-            flex: 1,
-            fontWeight: 'bold'
-        },
-        headerLayoutPreset: 'center',
-        headerRight: (<TouchableOpacity
-            onPress={() => this.submitForm}
-        >
-            <Icon name="check" type='material-community' size={30} color="white" />
-        </TouchableOpacity>),
-
-    };
     constructor() {
         super();
         this.state = {
             itemLocation: {},
         };
+
+        this.submitForm = this.submitForm.bind(this);
     }
+
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state;
+        return {
+            title: 'Form',
+            headerStyle: {
+                backgroundColor: '#e24f2d',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                textAlign: "center",
+                flex: 1,
+                fontWeight: 'bold'
+            },
+            headerLayoutPreset: 'center',
+            headerRight: (<TouchableOpacity
+                onPress={params.handleSave && params.handleSave()}>
+                <Icon name="check" type='material-community' size={30} color="white" />
+            </TouchableOpacity>)
+        }
+
+    };
 
     componentDidMount() {
         let itemLocation = this.props.navigation.getParam('itemLocation');
-        let pozicija = 'POINT(' + this.props.itemLocation.longitude + ' ' + this.props.itemLocation.latitude + ')';
+        this.props.navigation.setParams({ handleSave: () => this.submitForm });
+        let pozicija = 'POINT(' + itemLocation.longitude + ' ' + itemLocation.latitude + ')';
         this.props.setItemPropertyInReducer('location', pozicija)
         this.setState({
             itemLocation: itemLocation
@@ -58,10 +64,11 @@ class ItemForm extends React.Component {
     }
 
     submitForm = () => {
-        const { itemLocation } = this.state;
+        console.log('ovde sam');
         if (this.props.item.name &&
-            this.props.item.description) {
-            this.props.createItem(this.props.item, itemLocation);
+            this.props.item.description &&
+            this.props.item.location) {
+            this.props.createItem(this.props.item);
         }
         else {
             ToastAndroid.show('Please enter required fields!', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
@@ -117,7 +124,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         setItemPropertyInReducer: (name, value) => dispatch(setItemPropertyInReducer(name, value)),
-        createItem: (item, location) => dispatch(createItem(item, location)),
+        createItem: (item) => dispatch(createItem(item)),
         setInitialState: (component) => dispatch(setInitialState(component))
     };
 }

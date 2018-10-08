@@ -6,6 +6,7 @@ const INITIAL_STATE = immutable({
         name: '',
         description: '',
         price: '',
+        location: ''
     },
     itemPosting: false,
     itemPostingSuccess: false,
