@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, ToastAndroid, Text, Dimensions, Image, ScrollView,
-    FlatList
+    FlatList, TouchableOpacity
 } from 'react-native';
 import styles from '../assets/css/Main'
 import { connect } from 'react-redux';
@@ -138,6 +138,24 @@ class HomeScreen extends React.Component {
                         <MapList navigation={this.props.navigation} />
                     </TabNavigator.Item>
                 </TabNavigator>
+                <TouchableOpacity
+                    style={{
+                        borderWidth: 1,
+                        borderColor: 'rgba(0,0,0,0.2)',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 70,
+                        position: 'absolute',
+                        bottom: 10,
+                        right: 10,
+                        height: 70,
+                        backgroundColor: '#0000FF',
+                        borderRadius: 100,
+                    }}
+                    onPress={() => this.props.navigation.navigate('ItemLocation')}
+                >
+                    <Icon name="plus" type='material-community' size={30} color="white" />
+                </TouchableOpacity>
             </Drawer >
         );
     }

@@ -53,7 +53,6 @@ class Menu extends React.Component {
     render() {
         const { loading, user
         } = this.state;
-        console.log('user', user);
         if (loading) {
             return <Text style={{ flex: 1, alignContent: 'center' }}>Loading..</Text>;
         }

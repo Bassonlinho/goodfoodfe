@@ -166,6 +166,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-android-location-services-dialog-box')
     implementation 'com.android.support:multidex:1.0.1'
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-onesignal')

@@ -35,6 +35,16 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10
     },
+    inputFieldsForm: {
+        width: 290,
+        paddingLeft: 15,
+        height: 40,
+        borderColor: "#d3d3d3",
+        borderWidth: 1,
+        borderRadius: 10,
+        marginTop: 10,
+        marginBottom: 10
+    },
     buttonLogin: {
         backgroundColor: '#e24f2d',
         borderRadius: 5,
@@ -56,6 +66,20 @@ export default StyleSheet.create({
     buttonText: {
         color: '#e24f2d',
         fontWeight: 'bold'
+    },
+    button: {
+        height: 50,
+        width: 150,
+        backgroundColor: '#e24f2d',
+        top: SCREEN_HEIGHT / 1.3,
+        left: SCREEN_WIDTH / 3.2,
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    buttonTextLocation: {
+        fontSize: 17,
+        color: '#FFF',
+        alignSelf: 'center',
     },
     photo: {
         alignSelf: 'center',
@@ -121,12 +145,20 @@ export default StyleSheet.create({
         flexDirection: 'column',
         marginRight: 80
     },
-    map2: {
+    map: {
         left: 0,
         right: 0,
         bottom: 0,
         top: 0,
         position: 'absolute',
+    },
+    mapForm: {
+        left: 0,
+        right: 0,
+        position: 'relative',
+        top: 0,
+        bottom: 0,
+        height: 150
     },
     rowElement: {
         flexDirection: 'row',
@@ -140,11 +172,15 @@ export default StyleSheet.create({
         marginLeft: 12
     },
     contentContainer: {
-        marginTop:40,
+        marginTop: 40,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
         flex: 1
+    },
+    divider: {
+        marginTop: 10,
+        marginBottom: 20,
     },
 
 })

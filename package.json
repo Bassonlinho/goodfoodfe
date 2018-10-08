@@ -12,6 +12,7 @@
     "prop-types": "15.6.2",
     "react": "16.5.0",
     "react-native": "0.57.0",
+    "react-native-android-location-services-dialog-box": "^2.7.0",
     "react-native-drawer": "^2.5.0",
     "react-native-elements": "^0.19.1",
     "react-native-fbsdk": "^0.8.0",

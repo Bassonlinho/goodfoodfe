@@ -36,7 +36,7 @@ class MapList extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <MapView
-                    style={styles.map2}
+                    style={styles.map}
                     mapType="hybrid"
                     initialRegion={this.state.region}
                     followUserLocation={false}
