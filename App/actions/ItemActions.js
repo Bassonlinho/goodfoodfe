@@ -65,13 +65,14 @@ export function createItem(item) {
         })
 
         axios.post(serverUrl + '/api/item/create',
-            { item }
+            item
         )
             .then(function (response) {
                 dispatch({
                     type: Type.ITEM_POSTING_SUCCESS,
                     data: response.data
                 });
+                dispatch(getItems())
             })
             .catch(function (error) {
                 dispatch({
