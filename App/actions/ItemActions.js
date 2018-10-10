@@ -1,6 +1,6 @@
 import axios from '../utils/AxiosWrapper';
 import { config } from '../config/config';
-
+import mime from 'react-native-mime-types';
 const serverUrl = config.serverUrl;
 export const Type = {
     GET_ITEMS_CALL: 'GET_ITEMS_CALL',
@@ -15,6 +15,9 @@ export const Type = {
 
 
     SET_INITIAL_STATE: 'SET_INITIAL_STATE',
+    SET_ITEM_DOC: 'SET_ITEM_DOC',
+    UPLOAD_PICTURE_SUCCESS: 'UPLOAD_PICTURE_SUCCESS',
+    UPLOAD_PICTURE_FAILED: 'UPLOAD_PICTURE_FAILED'
 };
 
 export function setInitialState(component) {
@@ -37,7 +40,7 @@ export function getItems() {
             .then(function (response) {
                 dispatch({
                     type: Type.GET_ITEMS_SUCCESS,
-                    data: response.data
+                    data: response.data.data
                 });
             })
             .catch(function (error) {
@@ -64,20 +67,58 @@ export function createItem(item) {
             type: Type.ITEM_POSTING_CALL
         })
 
-        axios.post(serverUrl + '/api/item/create',
-            item
-        )
+        axios.post(serverUrl + '/api/item/create', item)
             .then(function (response) {
                 dispatch({
                     type: Type.ITEM_POSTING_SUCCESS,
                     data: response.data
                 });
+                if (!!item.documents && item.documents.length != 0) {
+                    var data = new FormData();
+                    data.append('document', {
+                        uri: item.documents.uri,
+                        name: item.documents.fileName,
+                        type: mime.lookup(item.documents.path),
+                    });
+
+                    data.append('itemId', response.data.data.id);
+
+                    axios({
+                        url: serverUrl + `/api/item/upload_picture`,
+                        method: 'POST',
+                        onUploadProgress: function (progressEvent) {
+                            console.log('wwww', Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                        },
+                        data: data,
+                        headers: { 'Content-Type': 'multipart/form-data' }
+                    }).then(function (res) {
+                        console.log('resssssssss', res);
+                        dispatch({
+                            type: Type.UPLOAD_PICTURE_SUCCESS
+                        });
+                    })
+                        .catch(function (err) {
+                            console.log('errrrrr ', err);
+                            dispatch({
+                                type: Type.UPLOAD_PICTURE_FAILED
+                            });
+                        });
+                }
                 dispatch(getItems())
             })
             .catch(function (error) {
+                console.log('ERRRRRRRRRRRRRRRRR ', error);
                 dispatch({
                     type: Type.ITEM_POSTING_FAILED
                 });
             });
+    }
+}
+export function setItemDoc(doc) {
+    return (dispatch) => {
+        dispatch({
+            type: Type.SET_ITEM_DOC,
+            doc: doc
+        })
     }
 }

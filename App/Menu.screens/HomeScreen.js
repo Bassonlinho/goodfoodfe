@@ -51,25 +51,32 @@ class HomeScreen extends React.Component {
 
     _keyExtractor = (item, index) => item.id;
 
-    _renderItem = ({ item }) => (
-        <View key={item.id} style={{ width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
-            <View style={styles.redSquareMP}>
-                <Image source={require('../assets/img/potato.jpg')}
-                    style={{
-                        height: 120,
-                        width: 150,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                    }} />
-            </View>
-            <View style={styles.columnMP}>
-                <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.name}</Text>
-                <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.description}</Text>
-                <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD {item.price} /KG</Text>
-            </View>
+    _renderItem = ({ item }) => {
+        let src = require('../assets/img/potato.jpg');
+        if (item.signedURL) {
+            console.log('ffffffff ', item.signedURL);
+            src = { uri: item.signedURL };
+        }
+        return (
+            <View key={item.id} style={{ width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
+                <View style={styles.redSquareMP}>
+                    <Image source={src}
+                        style={{
+                            height: 120,
+                            width: 150,
+                            borderWidth: 1,
+                            borderRadius: 5,
+                        }} />
+                </View>
+                <View style={styles.columnMP}>
+                    <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.name}</Text>
+                    <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.description}</Text>
+                    <Text style={{ fontSize: 12, fontWeight: 'bold' }}>RSD {item.price} /KG</Text>
+                </View>
 
-        </View>
-    );
+            </View>
+        )
+    };
 
     render() {
         return (
