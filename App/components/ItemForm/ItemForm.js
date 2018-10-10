@@ -1,12 +1,17 @@
 import React from 'react';
 import {
-    View, TouchableOpacity, ScrollView, ToastAndroid, ActivityIndicator
+    View, TouchableOpacity, ScrollView, ToastAndroid, ActivityIndicator,
+    Image, Dimensions
 } from 'react-native';
 import styles from '../../assets/css/Main'
 import { connect } from 'react-redux';
-import { Icon, FormInput } from 'react-native-elements';
-import { setItemPropertyInReducer, createItem, setInitialState } from '../../actions/ItemActions';
+import { Icon as ElementIcon, FormInput, Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { setItemPropertyInReducer, createItem, setInitialState, setItemDoc } from '../../actions/ItemActions';
 import MapView from 'react-native-maps';
+import ImagePicker from 'react-native-image-picker';
+const { width } = Dimensions.get("window");
+const SCREEN_WIDTH = width;
 class ItemForm extends React.Component {
     constructor() {
         super();
@@ -33,7 +38,7 @@ class ItemForm extends React.Component {
             headerLayoutPreset: 'center',
             headerRight: (<TouchableOpacity
                 onPress={params.handleSave && params.handleSave()}>
-                <Icon name="check" type='material-community' size={30} color="white" />
+                <ElementIcon name="check" type='material-community' size={30} color="white" />
             </TouchableOpacity>)
         }
 
@@ -64,7 +69,6 @@ class ItemForm extends React.Component {
     }
 
     submitForm = () => {
-        console.log('ovde sam');
         if (this.props.item.name &&
             this.props.item.description &&
             this.props.item.location) {
@@ -74,6 +78,38 @@ class ItemForm extends React.Component {
             ToastAndroid.show('Please enter required fields!', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         }
     }
+
+    showPicker() {
+        var options = {
+            title: 'Select picture',
+            mediaType: 'mixed',
+            noData: true,
+            storageOptions: {
+                skipBackup: true,
+                waitUntilSaved: true
+            }
+        };
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else {
+                let source = {
+                    path: response.path,
+                    uri: response.uri,
+                    fileName: response.fileName
+                };
+                let item = Object.assign({}, this.state.item);
+                item.documents = source;
+                this.setState({ item })
+                this.props.setItemDoc(item.documents);
+            }
+        });
+    }
+
 
 
     render() {
@@ -90,6 +126,28 @@ class ItemForm extends React.Component {
                     <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.name} onChangeText={(text) => this.handleTextChange('name', text)} placeholder="Title *" />
                     <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.price} onChangeText={(text) => this.handleTextChange('price', text)} placeholder="Price *" />
                     <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.description} onChangeText={(text) => this.handleTextChange('description', text)} placeholder="Description" />
+                    {this.props.item.documents.uri && <Image
+                        style={{
+                            height: SCREEN_WIDTH / 2,
+                            marginBottom: 5,
+                            borderRadius: 10,
+                        }}
+                        source={{ uri: this.props.item.documents.uri }}
+                    />
+                    }
+                    <View accessibilityLabel='fnforms003' >
+                        <Button
+                            icon={
+                                <Icon
+                                    name='arrow-right'
+                                    size={15}
+                                    color='red'
+                                />
+                            }
+                            title={this.props.item.documents.uri ? 'Edit picture' : 'Get picture'}
+                            onPress={this.showPicker.bind(this)}
+                        />
+                    </View>
                 </View>
         }
         return (
@@ -132,6 +190,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        setItemDoc: (doc) => dispatch(setItemDoc(doc)),
         setItemPropertyInReducer: (name, value) => dispatch(setItemPropertyInReducer(name, value)),
         createItem: (item) => dispatch(createItem(item)),
         setInitialState: (component) => dispatch(setInitialState(component))

@@ -6,7 +6,8 @@ const INITIAL_STATE = immutable({
         name: '',
         description: '',
         price: '',
-        location: ''
+        location: '',
+        documents: {},
     },
     itemPosting: false,
     itemPostingSuccess: false,
@@ -72,7 +73,12 @@ export default function (state = INITIAL_STATE, action) {
             return state.merge({ itemPosting, itemPostingFailed });
             break;
         }
-
+        case ItemActionType.SET_ITEM_DOC:
+            let doc = action.doc;
+            itemm = immutable.asMutable(state.item, { deep: true });
+            itemm.documents = doc;
+            return state.merge({ item: itemm });
+            break;
 
 
         default:

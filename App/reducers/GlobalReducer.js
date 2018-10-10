@@ -116,7 +116,7 @@ export default function (state = INITIAL_STATE, action) {
             let gmailLoging = false;
             let gmailLogedIn = true;
             let token = action.data.token;
-            let user = action.data.korisnik;
+            let user = action.data.user;
             AsyncStorage.setItem('token', token);
             AsyncStorage.setItem('user', JSON.stringify(user));
 
