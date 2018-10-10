@@ -96,9 +96,9 @@ class ItemLocation extends React.Component {
                     initialRegion={this.state.region}
                     followUserLocation={false}
                     onRegionChange={this.onRegionChange}
-                    showsUserLocation={false}
+                    showsUserLocation={true}
                     loadingEnabled={true}
-                    showsMyLocationButton={false}
+                    showsMyLocationButton={true}
                     rotateEnabled={false}>
                     <MapView.Marker coordinate={{
                         longitude: this.state.region.longitude,

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    View, Text, ScrollView, Image, TouchableHighlight, Alert, ToastAndroid
+    View, Text, ScrollView, Image, TouchableHighlight, Alert, ToastAndroid, ActivityIndicator
 } from 'react-native';
 import { loginWithUsername, facebookLogin, setInitialState, googleLogin } from '../actions/GlobalActions';
 import { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
@@ -72,16 +72,13 @@ class Login extends React.Component {
     }
 
     render() {
-        return (
-            <ScrollView style={styles.mainContainer} >
-                <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
-                    <View
-                        style={styles.loginBar}>
-                        <Image source={require('../assets/img/Logo.png')}
-                            style={styles.photo}
-                            resizeMode={'contain'} />
-                    </View>
-                </LinearGradient>
+        let content;
+        if (this.props.facebookLoging || this.props.gmailLoging || this.props.checkingCredentials) {
+            content = <View style={{ flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 100, padding: 15 }}>
+                <ActivityIndicator size="large" color="#e24f2d" />
+            </View>
+        } else {
+            content =
                 <View style={{ alignItems: 'center' }}>
                     <Text style={{ fontSize: 25, alignSelf: 'center' }}>Sign In</Text>
                     <FormInput inputStyle={styles.inputFields} onChangeText={(username) => this.setState({ username: username })} placeholder="Email *" />
@@ -172,6 +169,19 @@ class Login extends React.Component {
                         title='New? Sign Up for free' />
                     <Text style={{ alignContent: 'center', marginLeft: 50, marginRight: 50, fontSize: 12, marginTop: 10, marginBottom: 20 }}>By clicking 'Sign in' or 'Facebook' or 'Google' you agree to the Terms of Use and Privacy Policy</Text>
                 </View>
+
+        }
+        return (
+            <ScrollView style={styles.mainContainer} >
+                <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['rgb(252,75,26)', 'rgb(247,183,51)']}>
+                    <View
+                        style={styles.loginBar}>
+                        <Image source={require('../assets/img/Logo.png')}
+                            style={styles.photo}
+                            resizeMode={'contain'} />
+                    </View>
+                </LinearGradient>
+                {content}
             </ScrollView >
         );
     }

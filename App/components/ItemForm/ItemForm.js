@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    View, TouchableOpacity, ScrollView, ToastAndroid
+    View, TouchableOpacity, ScrollView, ToastAndroid, ActivityIndicator
 } from 'react-native';
 import styles from '../../assets/css/Main'
 import { connect } from 'react-redux';
@@ -79,6 +79,19 @@ class ItemForm extends React.Component {
     render() {
         const { itemLocation } = this.state;
         const { item } = this.props;
+        let content;
+        if (this.props.itemPosting) {
+            content = <View style={{ flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 100, padding: 15 }}>
+                <ActivityIndicator size="large" color="#e24f2d" />
+            </View>
+        } else {
+            content =
+                <View style={{ marginLeft: 20, marginRight: 20, marginTop: 10 }}>
+                    <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.name} onChangeText={(text) => this.handleTextChange('name', text)} placeholder="Title *" />
+                    <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.price} onChangeText={(text) => this.handleTextChange('price', text)} placeholder="Price *" />
+                    <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.description} onChangeText={(text) => this.handleTextChange('description', text)} placeholder="Description" />
+                </View>
+        }
         return (
             <ScrollView style={styles.mainContainer}>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -102,11 +115,7 @@ class ItemForm extends React.Component {
                             latitude: itemLocation.latitude
                         }} />
                     </MapView>
-                    <View style={{ marginLeft: 20, marginRight: 20, marginTop: 10 }}>
-                        <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.name} onChangeText={(text) => this.handleTextChange('name', text)} placeholder="Title *" />
-                        <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.price} onChangeText={(text) => this.handleTextChange('price', text)} placeholder="Price *" />
-                        <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.description} onChangeText={(text) => this.handleTextChange('description', text)} placeholder="Description" />
-                    </View>
+                    {content}
                 </View>
             </ScrollView>
         );

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, ToastAndroid, Text, Dimensions, Image, ScrollView,
-    FlatList, TouchableOpacity
+    FlatList, TouchableOpacity, ActivityIndicator
 } from 'react-native';
 import styles from '../assets/css/Main'
 import { connect } from 'react-redux';
@@ -72,6 +72,19 @@ class HomeScreen extends React.Component {
     );
 
     render() {
+        let content;
+        if (this.props.itemsFetching) {
+            content = <View style={{ flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 100, padding: 15 }}>
+                <ActivityIndicator size="large" color="#e24f2d" />
+            </View>;
+        } else {
+            content = <FlatList
+                data={this.props.items}
+                keyExtractor={this._keyExtractor}
+                renderItem={this._renderItem}
+                contentContainerStyle={styles.contentContainer}
+            />
+        }
         return (
             <Drawer
                 ref={(ref) => this._drawer = ref}
@@ -120,12 +133,7 @@ class HomeScreen extends React.Component {
                         titleStyle={{ color: '#fff', fontSize: 16 }}
                         onPress={() => this.setState({ selectedTab: 'list' })}>
                         <ScrollView style={styles.mainContainer}>
-                            <FlatList
-                                data={this.props.items}
-                                keyExtractor={this._keyExtractor}
-                                renderItem={this._renderItem}
-                                contentContainerStyle={styles.contentContainer}
-                            />
+                            {content}
                         </ScrollView>
                     </TabNavigator.Item>
                     <TabNavigator.Item
