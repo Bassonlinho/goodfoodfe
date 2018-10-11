@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    View, TouchableOpacity, ScrollView, ToastAndroid,
+    View, TouchableOpacity, ScrollView, ToastAndroid, ActivityIndicator,
     Image, Dimensions
 } from 'react-native';
 import styles from '../../assets/css/Main'
@@ -16,7 +16,6 @@ class ItemForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            itemLocation: {},
         };
 
         this.submitForm = this.submitForm.bind(this);
@@ -49,9 +48,6 @@ class ItemForm extends React.Component {
         this.props.navigation.setParams({ handleSave: () => this.submitForm });
         let pozicija = 'POINT(' + itemLocation.longitude + ' ' + itemLocation.latitude + ')';
         this.props.setItemPropertyInReducer('location', pozicija)
-        this.setState({
-            itemLocation: itemLocation
-        })
     }
 
     componentDidUpdate(prevProps) {
@@ -113,8 +109,43 @@ class ItemForm extends React.Component {
 
 
     render() {
-        const { itemLocation } = this.state;
+        let itemLocation = this.props.navigation.getParam('itemLocation');
         const { item } = this.props;
+        let content;
+        if (this.props.itemPosting) {
+            content = <View style={{ flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 100, padding: 15 }}>
+                <ActivityIndicator size="large" color="#e24f2d" />
+            </View>
+        } else {
+            content =
+                <View style={{ marginLeft: 20, marginRight: 20, marginTop: 10 }}>
+                    <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.name} onChangeText={(text) => this.handleTextChange('name', text)} placeholder="Title *" />
+                    <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.price} onChangeText={(text) => this.handleTextChange('price', text)} placeholder="Price *" />
+                    <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.description} onChangeText={(text) => this.handleTextChange('description', text)} placeholder="Description" />
+                    {this.props.item.documents.uri && <Image
+                        style={{
+                            height: SCREEN_WIDTH / 2,
+                            marginBottom: 5,
+                            borderRadius: 10,
+                        }}
+                        source={{ uri: this.props.item.documents.uri }}
+                    />
+                    }
+                    <View accessibilityLabel='fnforms003' >
+                        <Button
+                            icon={
+                                <Icon
+                                    name='arrow-right'
+                                    size={15}
+                                    color='red'
+                                />
+                            }
+                            title={this.props.item.documents.uri ? 'Edit picture' : 'Get picture'}
+                            onPress={this.showPicker.bind(this)}
+                        />
+                    </View>
+                </View>
+        }
         return (
             <ScrollView style={styles.mainContainer}>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -138,33 +169,7 @@ class ItemForm extends React.Component {
                             latitude: itemLocation.latitude
                         }} />
                     </MapView>
-                    <View style={{ marginLeft: 20, marginRight: 20, marginTop: 10 }}>
-                        <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.name} onChangeText={(text) => this.handleTextChange('name', text)} placeholder="Title *" />
-                        <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.price} onChangeText={(text) => this.handleTextChange('price', text)} placeholder="Price *" />
-                        <FormInput inputStyle={styles.inputFieldsForm} defaultValue={item.description} onChangeText={(text) => this.handleTextChange('description', text)} placeholder="Description" />
-                        {this.props.item.documents.uri && <Image
-                            style={{
-                                height: SCREEN_WIDTH / 2,
-                                marginBottom:5,
-                                borderRadius: 10,
-                            }}
-                            source={{ uri: this.props.item.documents.uri }}
-                        />
-                        }
-                        <View accessibilityLabel='fnforms003' >
-                            <Button
-                                icon={
-                                    <Icon
-                                        name='arrow-right'
-                                        size={15}
-                                        color='red'
-                                    />
-                                }
-                                title={this.props.item.documents.uri ?'Edit picture':'Get picture'}
-                                onPress={this.showPicker.bind(this)}
-                            />
-                        </View>
-                    </View>
+                    {content}
                 </View>
             </ScrollView>
         );
