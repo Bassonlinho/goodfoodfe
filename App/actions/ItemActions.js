@@ -17,7 +17,11 @@ export const Type = {
     SET_INITIAL_STATE: 'SET_INITIAL_STATE',
     SET_ITEM_DOC: 'SET_ITEM_DOC',
     UPLOAD_PICTURE_SUCCESS: 'UPLOAD_PICTURE_SUCCESS',
-    UPLOAD_PICTURE_FAILED: 'UPLOAD_PICTURE_FAILED'
+    UPLOAD_PICTURE_FAILED: 'UPLOAD_PICTURE_FAILED',
+
+    GET_ITEM_BY_ID_CALL: 'GET_ITEM_BY_ID_CALL',
+    GET_ITEM_BY_ID_SUCCESS: 'GET_ITEM_BY_ID_SUCCESS',
+    GET_ITEM_BY_ID_FAILED: 'GET_ITEM_BY_ID_FAILED',
 };
 
 export function setInitialState(component) {
@@ -120,5 +124,26 @@ export function setItemDoc(doc) {
             type: Type.SET_ITEM_DOC,
             doc: doc
         })
+    }
+}
+
+export function getItemById(id) {
+    return (dispatch) => {
+        dispatch({
+            type: Type.GET_ITEM_BY_ID_CALL
+        });
+        return axios.get(serverUrl + '/api/item/getById?id=' + id)
+            .then(function (response) {
+                console.log('rrrrrrrrrrr', response)
+                dispatch({
+                    type: Type.GET_ITEM_BY_ID_SUCCESS,
+                    data: response.data
+                });
+            })
+            .catch(function (error) {
+                dispatch({
+                    type: Type.GET_ITEM_BY_ID_FAILED
+                });
+            });
     }
 }

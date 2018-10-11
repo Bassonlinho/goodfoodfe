@@ -45,7 +45,7 @@ export default function (state = INITIAL_STATE, action) {
         case GlobalActionType.REGISTER_SUCCESS:
             {
                 let token = action.data.token;
-                let user = action.data.korisnik;
+                let user = action.data.user;
                 AsyncStorage.setItem('token', token);
                 AsyncStorage.setItem('user', JSON.stringify(user));
                 let loggedIn = true;
