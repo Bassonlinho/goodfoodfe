@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    View
+    View, Text, Image, TouchableOpacity, Alert
 } from 'react-native';
 import styles from '../../assets/css/Main'
 import { connect } from 'react-redux';
@@ -25,6 +25,8 @@ class MapList extends React.Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA
             },
+            popupVisible: false,
+            selectedItem: {}
         };
 
     }
@@ -57,7 +59,6 @@ class MapList extends React.Component {
                     this.setState({
                         region: initialRegion,
                     });
-                    this.onMapLayout();
                 },
                     (error) => {
                         this.props.navigation.pop();
@@ -69,7 +70,6 @@ class MapList extends React.Component {
         ).catch((error) => {
             this.props.navigation.pop();
         });
-        this.onMapLayout();
     }
 
     onRegionChange(region) {
@@ -88,19 +88,38 @@ class MapList extends React.Component {
         return myCoords;
     }
 
-    onMapLayout = () => {
-        this.mapRef.fitToElements(true);
+    _onMarkerPress = (item) => {
+        this.setState({
+            popupVisible: !this.state.popupVisible,
+            selectedItem: item,
+        })
+    }
+
+    onMapPress = () => {
+        this.setState({
+            popupVisible: false,
+            selectedItem: null
+        })
     }
 
     render() {
+        let src = require('../../assets/img/potato.jpg');
+        if (this.state.selectedItem && this.state.selectedItem.signedURL) {
+            src = { uri: this.state.selectedItem.signedURL };
+        }
         return (
             <View style={styles.mainContainer}>
                 <MapView
-                    style={styles.map}
+                    style={styles.mapList}
                     ref={(ref) => { this.mapRef = ref }}
-                    onLayout={() => this.onMapLayout}
+                    onMapReady={() => this.mapRef.fitToElements(true)}
                     mapType="hybrid"
+                    onPress={() => this.onMapPress()}
                     initialRegion={this.state.region}
+                    onPoiClick={e => Alert.alert(
+                        'Name' + ': ' + e.nativeEvent.name + '\n',
+                        'Coordinates' + ': ' + e.nativeEvent.coordinate.latitude + ',' + '\n' + e.nativeEvent.coordinate.longitude + '\n'
+                    )}
                     followUserLocation={false}
                     onRegionChange={this.onRegionChange.bind(this)}
                     showsUserLocation={false}
@@ -111,12 +130,38 @@ class MapList extends React.Component {
 
                         <MapView.Marker
                             coordinate={{ longitude: this.returnCoords(item).long, latitude: this.returnCoords(item).lat }}
-                            // onPress={this._onMarkerPress.bind(this, item)}
+                            onPress={() => this._onMarkerPress(item)}
                             key={item.id}
                         />
                     ))}
                 </MapView>
-            </View>
+                {
+                    this.state.popupVisible &&
+                    <View style={styles.modal}>
+                        <Image source={src}
+                            style={{
+                                height: 140,
+                                width: 150,
+                                borderWidth: 1,
+                                borderRadius: 5,
+                                margin: 10
+                            }} />
+                        <View style={{ flexDirection: 'column', marginRight: 5, width: 180, height: 170, marginTop: 5 }}>
+                            <Text ellipsizeMode='tail' numberOfLines={2} style={{ fontSize: 18, fontWeight: 'bold' }}>{this.state.selectedItem.name}</Text>
+                            <Text ellipsizeMode='tail' numberOfLines={4} style={{ fontSize: 15 }}>{this.state.selectedItem.description}</Text>
+                            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{this.state.selectedItem.price}</Text>
+                            <TouchableOpacity
+                                style={{
+                                    width: 100,
+                                    marginTop: 4,
+                                    backgroundColor: 'black',
+                                }}>
+                                <Text style={{ color: 'white' }}>Details</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                }
+            </View >
         );
     }
 }

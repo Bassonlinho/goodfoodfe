@@ -166,7 +166,6 @@ android {
 }
 
 dependencies {
-    compile project(':rn-fetch-blob')
     compile project(':react-native-vector-icons')
     compile project(':react-native-onesignal')
     compile project(':react-native-maps')

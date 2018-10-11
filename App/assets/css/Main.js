@@ -152,6 +152,24 @@ export default StyleSheet.create({
         top: 0,
         position: 'absolute',
     },
+    mapList: {
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 38,
+        position: 'absolute',
+    },
+    modal: {
+        top: 100,
+        position: 'absolute',
+        width: SCREEN_WIDTH,
+        borderRadius: 10,
+        height: 180,
+        backgroundColor: 'white',
+        alignSelf: 'center',
+        flex: 1,
+        flexDirection: 'row'
+    },
     mapForm: {
         left: 0,
         right: 0,

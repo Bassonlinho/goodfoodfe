@@ -3,7 +3,6 @@ package com.goodfood;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -44,12 +43,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new RNFetchBlobPackage(),
-            new VectorIconsPackage(),
-            new ReactNativeOneSignalPackage(),
-            new MapsPackage(),
-            new RNGoogleSigninPackage(),
-            new FBSDKPackage(),
             new ImagePickerPackage(),
             new LocationServicesDialogBoxPackage(),
             new VectorIconsPackage(),

@@ -33,6 +33,7 @@ class ItemLocation extends React.Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
             },
+            marginBottom: 1
         };
 
     }
@@ -87,16 +88,19 @@ class ItemLocation extends React.Component {
         this.setState({ region });
     }
 
+    _onMapReady = () => this.setState({ marginBottom: 0 })
+
     render() {
         return (
             <View style={styles.mainContainer}>
                 <MapView
-                    style={styles.map}
+                    style={[styles.map, { marginBottom: this.state.marginBottom }]}
                     mapType="hybrid"
                     initialRegion={this.state.region}
                     followUserLocation={false}
                     onRegionChange={this.onRegionChange}
                     showsUserLocation={true}
+                    onMapReady={this._onMapReady}
                     loadingEnabled={true}
                     showsMyLocationButton={true}
                     rotateEnabled={false}>

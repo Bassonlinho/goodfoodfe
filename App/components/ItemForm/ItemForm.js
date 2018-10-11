@@ -16,7 +16,6 @@ class ItemForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            itemLocation: {},
         };
 
         this.submitForm = this.submitForm.bind(this);
@@ -49,9 +48,6 @@ class ItemForm extends React.Component {
         this.props.navigation.setParams({ handleSave: () => this.submitForm });
         let pozicija = 'POINT(' + itemLocation.longitude + ' ' + itemLocation.latitude + ')';
         this.props.setItemPropertyInReducer('location', pozicija)
-        this.setState({
-            itemLocation: itemLocation
-        })
     }
 
     componentDidUpdate(prevProps) {
@@ -113,7 +109,7 @@ class ItemForm extends React.Component {
 
 
     render() {
-        const { itemLocation } = this.state;
+        let itemLocation = this.props.navigation.getParam('itemLocation');
         const { item } = this.props;
         let content;
         if (this.props.itemPosting) {
