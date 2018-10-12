@@ -9,6 +9,9 @@ const INITIAL_STATE = immutable({
         location: '',
         documents: {},
     },
+    itemDetail: {},
+    itemDetailFetching: false,
+    itemDetailFetchingFailed: false,
     itemPosting: false,
     itemPostingSuccess: false,
     itemPostingFailed: false,
@@ -97,6 +100,23 @@ export default function (state = INITIAL_STATE, action) {
             itemm = immutable.asMutable(state.item, { deep: true });
             itemm.documents = doc;
             return state.merge({ item: itemm });
+            break;
+
+        case ItemActionType.GET_ITEM_BY_ID_CALL:
+            itemDetailFetching = true;
+            return state.merge({ itemDetailFetching });
+            break;
+
+        case ItemActionType.GET_ITEM_BY_ID_SUCCESS:
+            itemDetail = action.data;
+            itemDetailFetching = false;
+            return state.merge({ itemDetail, itemDetailFetching });
+            break;
+
+        case ItemActionType.GET_ITEM_BY_ID_FAILED:
+            let itemDetailFetching = false;
+            let itemDetailFetchingFailed = true;
+            return state.merge({ itemDetailFetching, itemDetailFetchingFailed });
             break;
 
 

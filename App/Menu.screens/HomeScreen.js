@@ -59,15 +59,19 @@ class HomeScreen extends React.Component {
         }
         return (
             <View key={item.id} style={{ width: SCREEN_WIDTH / 2 - 8, justifyContent: 'center', alignItems: 'center', paddingLeft: Math.floor((SCREEN_WIDTH % 2) / 2), borderColor: '#d4d4d4', borderWidth: 1, borderRadius: 5 }}>
-                <View style={styles.redSquareMP}>
-                    <Image source={src}
-                        style={{
-                            height: 120,
-                            width: 150,
-                            borderWidth: 1,
-                            borderRadius: 5,
-                        }} />
-                </View>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('ItemDetail', { itemId: item.id })}
+                >
+                    <View style={styles.redSquareMP}>
+                        <Image source={src}
+                            style={{
+                                height: 120,
+                                width: 150,
+                                borderWidth: 1,
+                                borderRadius: 5,
+                            }} />
+                    </View>
+                </TouchableOpacity>
                 <View style={styles.columnMP}>
                     <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.name}</Text>
                     <Text ellipsizeMode={'tail'} style={{ fontSize: 12 }}>{item.description}</Text>
