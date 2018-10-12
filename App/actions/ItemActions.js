@@ -7,6 +7,10 @@ export const Type = {
     GET_ITEMS_SUCCESS: 'GET_ITEMS_SUCCESS',
     GET_ITEMS_FAILED: 'GET_ITEMS_FAILED',
 
+    GET_MY_ITEMS_CALL: 'GET_MY_ITEMS_CALL',
+    GET_MY_ITEMS_SUCCESS: 'GET_MY_ITEMS_SUCCESS',
+    GET_MY_ITEMS_FAILED: 'GET_MY_ITEMS_FAILED',
+
     SET_ITEM_PROPERTY: 'SET_ITEM_PROPERTY',
 
     ITEM_POSTING_CALL: 'ITEM_POSTING_CALL',
@@ -46,6 +50,27 @@ export function getItems() {
             .catch(function (error) {
                 dispatch({
                     type: Type.GET_ITEMS_FAILED
+                });
+            });
+    }
+}
+
+export function getMyItems() {
+    return (dispatch) => {
+        dispatch({
+            type: Type.GET_MY_ITEMS_CALL
+        });
+
+        axios.get(serverUrl + '/api/item/myItems')
+            .then(function (response) {
+                dispatch({
+                    type: Type.GET_MY_ITEMS_SUCCESS,
+                    data: response.data.data
+                });
+            })
+            .catch(function (error) {
+                dispatch({
+                    type: Type.GET_MY_ITEMS_FAILED
                 });
             });
     }

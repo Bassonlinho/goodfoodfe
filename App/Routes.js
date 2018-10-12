@@ -8,6 +8,7 @@ import WalletScreen from './Menu.screens/WalletScreen';
 import Trace from './Menu.screens/Trace'
 import ItemLocation from './components/ItemForm/ItemLocation';
 import ItemForm from './components/ItemForm/ItemForm';
+import MyOffers from './components/MyItems/MyOffers';
 const AppStack = createStackNavigator({
     HomeScreen: HomeScreen,
     Trace: Trace,
@@ -16,6 +17,7 @@ const AppStack = createStackNavigator({
     WalletScreen: WalletScreen,
     ItemLocation: ItemLocation,
     ItemForm: ItemForm,
+    MyOffers: MyOffers
 });
 
 const AuthStack = createStackNavigator({ Login: Login, Registration: Registration });

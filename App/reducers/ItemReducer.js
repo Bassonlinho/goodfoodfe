@@ -44,8 +44,27 @@ export default function (state = INITIAL_STATE, action) {
         case ItemActionType.GET_ITEMS_FAILED:
             itemsFetching = false;
             itemsFetchingFailed = true;
-            return state.merge({ items, itemsFetching, itemsFetchingFailed });
+            return state.merge({ itemsFetching, itemsFetchingFailed });
             break;
+
+        case ItemActionType.GET_MY_ITEMS_CALL: {
+            let itemsFetching = true;
+            return state.merge({ itemsFetching });
+            break;
+        }
+
+        case ItemActionType.GET_MY_ITEMS_SUCCESS:
+            let myItems = action.data;
+            itemsFetching = false;
+            return state.merge({ myItems, itemsFetching });
+            break;
+
+        case ItemActionType.GET_MY_ITEMS_FAILED: {
+            itemsFetching = false;
+            itemsFetchingFailed = true;
+            return state.merge({ itemsFetching, itemsFetchingFailed });
+            break;
+        }
 
         case ItemActionType.SET_ITEM_PROPERTY: {
             let item = state.item.asMutable();

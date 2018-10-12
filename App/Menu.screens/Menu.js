@@ -78,9 +78,11 @@ class Menu extends React.Component {
                 <View style={styles.rowElement}>
                     <Text style={styles.text}>Shop</Text>
                 </View>
-                <View style={styles.rowElement}>
-                    <Text style={styles.text}>My offer</Text>
-                </View>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyOffers')} >
+                    <View style={styles.rowElement}>
+                        <Text style={styles.text}>My offers</Text>
+                    </View>
+                </TouchableHighlight>
                 <View style={styles.rowElement}>
                     <Text style={styles.text}>My demands</Text>
                 </View>

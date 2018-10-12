@@ -143,7 +143,7 @@ export default StyleSheet.create({
     columnMP: {
         flex: 1,
         flexDirection: 'column',
-        marginRight: 80
+        alignContent: 'flex-start'
     },
     map: {
         left: 0,
@@ -191,6 +191,13 @@ export default StyleSheet.create({
     },
     contentContainer: {
         marginTop: 40,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        flex: 1
+    },
+    myOfferContainer: {
+        marginTop: 10,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
