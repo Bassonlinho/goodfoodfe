@@ -6,8 +6,35 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import BalanceCard from "../components/Wallet/BalanceCard";
+import TransactionList from "../components/Wallet/TransactionList";
 
 class WalletScreen extends React.Component {
+
+  state = {
+    transactions: [{
+      id: 1,
+        amount: -120.00,
+        title: 'Potato',
+        currency: '$',
+        user: 'Petar Petrovic',
+        date: '21.09.2018.'
+    },{
+        id: 1,
+        amount: 20000.00,
+        title: 'Subsidies',
+        currency: '$',
+        user: 'Ministry of Agriculture',
+        date: '11.09.2018.'
+    },{
+        id: 1,
+        amount: -15000.00,
+        title: 'Fertilizer',
+        currency: '$',
+        user: 'AgriTrade d.o.o.',
+        date: '01.09.2018.'
+    }]
+  };
+
   handleUSDButtonPress = () => {
     console.log("handleUSDButtonPress");
   };
@@ -31,6 +58,7 @@ class WalletScreen extends React.Component {
           buttonTitle="Convert"
           onButtonPress={this.handleGFCButtonPress}
         />
+        <TransactionList transactions={this.state.transactions}/>
       </View>
     );
   }
@@ -44,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
-    justifyContent: "flex-start"
+    justifyContent: 'center',
+    alignContent: 'space-between'
   }
 });

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/nemanja/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
+            "outputFile": "/home/pajicv/Development/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "source": "/home/pajicv/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/1a03c25fdd5f82c61c5c170f76b76c76/res/values-h720dp-v13/values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

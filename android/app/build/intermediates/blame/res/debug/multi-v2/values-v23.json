@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/nemanja/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
+            "outputFile": "/home/pajicv/Development/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/7c30203606d6bf1496026321c6e63538/res/values-v23/values-v23.xml",
+                    "source": "/home/pajicv/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/1a03c25fdd5f82c61c5c170f76b76c76/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
@@ -15,7 +15,7 @@
                     }
                 },
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/ad8c7b0163f4663af59c1614d4079279/res/values-v23/values-v23.xml",
+                    "source": "/home/pajicv/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/765230a6a904891de9c50c8968f754bd/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

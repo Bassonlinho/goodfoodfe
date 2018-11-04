@@ -1,10 +1,10 @@
-#Mon Sep 24 12:47:02 CEST 2018
+#Mon Sep 24 13:49:29 CEST 2018
 path.2=classes3.dex
 path.1=classes2.dex
 path.0=classes.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.2=/home/nemanja/goodfood/android/app/build/intermediates/transforms/dexMerger/debug/0
-base.1=/home/nemanja/goodfood/android/app/build/intermediates/transforms/dexMerger/debug/0
-base.0=/home/nemanja/goodfood/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.2=/home/pajicv/Development/goodfood/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.1=/home/pajicv/Development/goodfood/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.0=/home/pajicv/Development/goodfood/android/app/build/intermediates/transforms/dexMerger/debug/0

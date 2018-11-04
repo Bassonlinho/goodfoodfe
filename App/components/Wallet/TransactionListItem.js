@@ -6,16 +6,29 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 
 const TransactionListItem = ({currency, amount, user, title, date}) => {
-    <View style={styles.card}>
-        <View style={styles.leftContainer}>
-            <Text>A</Text>
-            <Text>B</Text>
+
+    const color = (amount < 0) ?  'red' : 'green';
+
+    return (
+        <View style={styles.card}>
+            <View style={styles.leftContainer}>
+                <View style={styles.leftTopText}>
+                    <Text style={{fontWeight: 'bold', color: 'black'}}>{title}</Text>
+                </View>
+                <View style={styles.leftBottomText}>
+                    <Text>{user}</Text>
+                </View>
+            </View>
+            <View style={styles.rightContainer}>
+                <View style={styles.rightTopText}>
+                    <Text style={{fontWeight: 'bold', color}}>{`${amount} ${currency}`}</Text>
+                </View>
+                <View style={styles.rightBottomText}>
+                    <Text >{date}</Text>
+                </View>
+            </View>
         </View>
-        <View style={styles.rightContainer}>
-            <Text>C</Text>
-            <Text>D</Text>
-        </View>
-    </View>
+    )
 };
 
 TransactionListItem.propTypes = {
@@ -23,31 +36,22 @@ TransactionListItem.propTypes = {
     amount: PropTypes.number.isRequired,
     user: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    date: PropTypes.date.isRequired
+    date: PropTypes.string.isRequired
 };
 
 export default TransactionListItem;
 
 const styles = StyleSheet.create({
     card: {
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 3,
-            height: 3
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        backgroundColor: "#ffffff",
-        padding: 5,
-        margin: 10,
-        borderRadius: 3,
-        width: "90%",
-        elevation: 3,
         flexDirection: 'row',
         flexWrap: 'nowrap',
         justifyContent: 'center',
         alignItems: 'stretch',
-        alignContent: 'stretch'
+        alignContent: 'stretch',
+        padding: 5,
+        margin: 5,
+        borderWidth: 1,
+        borderColor: '#ccc'
     },
     leftContainer: {
         flexDirection: 'column',
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         alignContent: 'stretch',
-        width: '100%'
+        flex: 1
     },
     rightContainer: {
         flexDirection: 'column',
@@ -63,21 +67,18 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         alignContent: 'stretch',
-        width: '100%'
+        flex: 1
     },
     leftTopText: {
-        fontWeight: "bold",
-        color: "black"
+        alignItems: 'flex-start'
     },
     leftBottomText: {
-
+        alignItems: 'flex-start'
     },
     rightTopText: {
-        justifyContent: 'flex-end',
-        fontWeight: "bold",
-        color: "black"
+        alignItems: 'flex-end'
     },
     rightBottomText: {
-        justifyContent: 'flex-end'
+        alignItems: 'flex-end'
     }
 });

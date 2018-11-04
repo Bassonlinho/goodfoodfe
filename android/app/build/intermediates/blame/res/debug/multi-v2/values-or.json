@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/nemanja/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
+            "outputFile": "/home/pajicv/Development/goodfood/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
             "map": [
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-16.0.3.aar/89b3583c8d889cb9aca2429a2f18eeaa/res/values-or/values.xml",
+                    "source": "/home/pajicv/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-16.0.3.aar/0d4c4b6c166ba464672c183dc11dcca9/res/values-or/values.xml",
                     "from": {
                         "startLines": "4,5,6",
                         "startColumns": "0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/nemanja/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.2.aar/6eed1a1c6ffe051338d833627f96bc0f/res/values-or/values.xml",
+                    "source": "/home/pajicv/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.2.aar/f4115dfe285d480ebe880cec08d4c8c3/res/values-or/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 3,
     width: "90%",
-    elevation: 3
+    elevation: 3,
+      flex: 0.5
   },
   titleSection: {
     flexDirection: "row",
